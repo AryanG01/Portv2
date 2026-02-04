@@ -79,7 +79,7 @@ export default function Hero() {
       id="hero"
       className="relative flex min-h-screen items-center overflow-hidden"
     >
-      <div className="mx-auto grid w-full max-w-6xl gap-12 px-6 md:grid-cols-[1fr_0.8fr] md:items-center md:gap-8">
+      <div className="mx-auto grid w-full max-w-7xl gap-12 px-6 md:grid-cols-[1.2fr_1fr] md:items-center md:gap-16 md:px-12 lg:px-20">
         {/* Text */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -114,7 +114,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.15, ease: [0.4, 0, 0.2, 1] }}
           className="relative order-1 mx-auto w-full max-w-sm md:order-2 md:ml-auto md:max-w-none"
         >
-          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border-l-[3px] border-accent md:aspect-[2/3] md:rounded-3xl">
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl border-l-[3px] border-accent md:aspect-[3/4] md:max-h-[70vh] md:rounded-3xl">
             {!imageError ? (
               <Image
                 src="/avatar.jpg"

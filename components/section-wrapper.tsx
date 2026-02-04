@@ -21,7 +21,7 @@ export default function SectionWrapper({
     <section
       ref={ref}
       id={id}
-      className={`mx-auto max-w-6xl px-6 py-20 md:py-28 ${className}`}
+      className={`mx-auto max-w-7xl px-6 py-20 md:px-12 md:py-28 lg:px-20 ${className}`}
       style={{
         opacity: visible ? 1 : 0,
         transform: visible ? "translateY(0)" : "translateY(24px)",

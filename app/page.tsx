@@ -1,13 +1,38 @@
+import Nav from "@/components/nav";
+import SectionWrapper from "@/components/section-wrapper";
+
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background p-16">
-      <h1 className="font-heading text-6xl font-semibold text-foreground">
-        Aryan Ganju
-      </h1>
-      <p className="mt-4 font-body text-lg text-muted">
-        Software Engineer &middot; NUS Computer Science
-      </p>
-      <p className="mt-2 font-mono text-sm text-accent">97% accuracy</p>
-    </main>
+    <>
+      <Nav />
+      <main>
+        {/* Hero - no wrapper, handled separately */}
+        <section id="hero" className="min-h-screen" />
+
+        <SectionWrapper id="about" title="About">
+          <p className="text-muted">About section placeholder</p>
+        </SectionWrapper>
+
+        <SectionWrapper id="experience" title="Experience">
+          <p className="text-muted">Experience section placeholder</p>
+        </SectionWrapper>
+
+        <SectionWrapper id="projects" title="Projects">
+          <p className="text-muted">Projects section placeholder</p>
+        </SectionWrapper>
+
+        <SectionWrapper id="awards" title="Hackathons & Awards">
+          <p className="text-muted">Awards section placeholder</p>
+        </SectionWrapper>
+
+        <SectionWrapper id="skills" title="Skills">
+          <p className="text-muted">Skills section placeholder</p>
+        </SectionWrapper>
+
+        <SectionWrapper id="contact" title="Get in Touch">
+          <p className="text-muted">Contact section placeholder</p>
+        </SectionWrapper>
+      </main>
+    </>
   );
 }

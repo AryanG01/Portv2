@@ -1,4 +1,5 @@
 import Nav from "@/components/nav";
+import Hero from "@/components/sections/hero";
 import SectionWrapper from "@/components/section-wrapper";
 
 export default function Home() {
@@ -6,8 +7,7 @@ export default function Home() {
     <>
       <Nav />
       <main>
-        {/* Hero - no wrapper, handled separately */}
-        <section id="hero" className="min-h-screen" />
+        <Hero />
 
         <SectionWrapper id="about" title="About">
           <p className="text-muted">About section placeholder</p>

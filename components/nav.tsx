@@ -69,7 +69,7 @@ export default function Nav() {
       }`}
       style={{ transitionDuration: "var(--duration-normal)" }}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-12 lg:px-20">
+      <nav className="flex items-center justify-between px-8 py-4 md:px-[6vw] lg:px-[8vw]">
         <a
           href="#"
           onClick={(e) => {

@@ -185,8 +185,8 @@ export default function ContactForm() {
         disabled={formState === "loading" || formState === "success"}
         className={`inline-flex items-center justify-center rounded-lg px-6 py-3 font-body text-sm font-medium transition-colors ${
           formState === "success"
-            ? "bg-success text-white"
-            : "bg-foreground text-background hover:bg-foreground/85"
+            ? "bg-success text-background"
+            : "bg-accent text-background hover:bg-accent-hover"
         } disabled:cursor-not-allowed disabled:opacity-70`}
         style={{ transitionDuration: "var(--duration-normal)" }}
       >

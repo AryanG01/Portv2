@@ -31,10 +31,8 @@ export default function MagneticButton({
     const rect = ref.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    const distX = e.clientX - centerX;
-    const distY = e.clientY - centerY;
-    x.set(distX * 0.15);
-    y.set(distY * 0.15);
+    x.set((e.clientX - centerX) * 0.15);
+    y.set((e.clientY - centerY) * 0.15);
   };
 
   const handleMouseLeave = () => {
@@ -44,10 +42,10 @@ export default function MagneticButton({
   };
 
   const baseStyles =
-    "inline-flex items-center justify-center rounded-lg px-6 py-3 font-body text-sm font-medium transition-colors";
+    "inline-flex items-center justify-center rounded-lg px-6 py-3 font-body text-sm font-medium transition-all";
   const variants = {
-    primary: `${baseStyles} bg-foreground text-background hover:bg-foreground/85`,
-    outline: `${baseStyles} border border-border text-foreground hover:border-foreground/30`,
+    primary: `${baseStyles} bg-accent text-background hover:bg-accent-hover`,
+    outline: `${baseStyles} border border-border text-foreground hover:border-border-hover hover:bg-surface`,
   };
 
   const Tag = href ? "a" : "button";
@@ -66,15 +64,13 @@ export default function MagneticButton({
         onClick={(e) => {
           if (href?.startsWith("#")) {
             e.preventDefault();
-            document
-              .querySelector(href)
-              ?.scrollIntoView({ behavior: "smooth" });
+            document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
           }
           onClick?.();
         }}
         className={`${variants[variant]} ${className}`}
         style={{
-          transform: hovered ? "scale(1.02)" : "scale(1)",
+          transform: hovered ? "scale(1.03)" : "scale(1)",
           transitionDuration: "var(--duration-fast)",
         }}
       >

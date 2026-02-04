@@ -1,40 +1,5 @@
-import Nav from "@/components/nav";
-import Hero from "@/components/sections/hero";
-import About from "@/components/sections/about";
-import Experience from "@/components/sections/experience";
-import SectionWrapper from "@/components/section-wrapper";
+import PageContent from "@/components/page-content";
 
 export default function Home() {
-  return (
-    <>
-      <Nav />
-      <main>
-        <Hero />
-
-        <SectionWrapper id="about" title="About">
-          <About />
-        </SectionWrapper>
-
-        <SectionWrapper id="experience" title="Experience">
-          <Experience />
-        </SectionWrapper>
-
-        <SectionWrapper id="projects" title="Projects">
-          <p className="text-muted">Projects section placeholder</p>
-        </SectionWrapper>
-
-        <SectionWrapper id="awards" title="Hackathons & Awards">
-          <p className="text-muted">Awards section placeholder</p>
-        </SectionWrapper>
-
-        <SectionWrapper id="skills" title="Skills">
-          <p className="text-muted">Skills section placeholder</p>
-        </SectionWrapper>
-
-        <SectionWrapper id="contact" title="Get in Touch">
-          <p className="text-muted">Contact section placeholder</p>
-        </SectionWrapper>
-      </main>
-    </>
-  );
+  return <PageContent />;
 }

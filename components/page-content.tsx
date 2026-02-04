@@ -8,6 +8,7 @@ import Experience from "@/components/sections/experience";
 import Projects from "@/components/sections/projects";
 import Hackathons from "@/components/sections/hackathons";
 import Skills from "@/components/sections/skills";
+import Contact from "@/components/sections/contact";
 import SectionWrapper from "@/components/section-wrapper";
 
 export default function PageContent() {
@@ -44,7 +45,7 @@ export default function PageContent() {
         </SectionWrapper>
 
         <SectionWrapper id="contact" title="Get in Touch">
-          <p className="text-muted">Contact section placeholder</p>
+          <Contact />
         </SectionWrapper>
       </main>
     </>

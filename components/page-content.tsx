@@ -6,6 +6,7 @@ import Hero from "@/components/sections/hero";
 import About from "@/components/sections/about";
 import Experience from "@/components/sections/experience";
 import Projects from "@/components/sections/projects";
+import Hackathons from "@/components/sections/hackathons";
 import SectionWrapper from "@/components/section-wrapper";
 
 export default function PageContent() {
@@ -30,7 +31,7 @@ export default function PageContent() {
         </SectionWrapper>
 
         <SectionWrapper id="awards" title="Hackathons & Awards">
-          <p className="text-muted">Awards section placeholder</p>
+          <Hackathons />
         </SectionWrapper>
 
         <SectionWrapper id="skills" title="Skills">

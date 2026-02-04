@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import profile from "@/data/profile.json";
+import { useReveal } from "@/hooks/use-reveal";
 
 const HIGHLIGHTS = [
   { label: "Current", value: "Final Year @ NUS" },
@@ -14,34 +13,7 @@ const HIGHLIGHTS = [
 ];
 
 export default function About() {
-  const listRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReduced) {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, visible } = useReveal(0.2);
 
   return (
     <div className="grid gap-12 md:grid-cols-[1.4fr_1fr] md:gap-16">
@@ -70,7 +42,7 @@ export default function About() {
       </div>
 
       {/* Highlights */}
-      <div ref={listRef} className="flex flex-col gap-4">
+      <div ref={ref} className="flex flex-col gap-4">
         {HIGHLIGHTS.map((h, i) => (
           <div
             key={h.label}

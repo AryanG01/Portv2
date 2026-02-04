@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useReveal } from "@/hooks/use-reveal";
 import profile from "@/data/profile.json";
 
 function isRanking(result: string): boolean {
@@ -8,7 +8,6 @@ function isRanking(result: string): boolean {
 }
 
 function formatResult(result: string) {
-  // Emphasize large numbers like "2300+"
   const parts = result.split(/(\d{3,}\+?)/);
   return parts.map((part, i) =>
     /\d{3,}\+?/.test(part) ? (
@@ -22,37 +21,10 @@ function formatResult(result: string) {
 }
 
 export default function Hackathons() {
-  const listRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (prefersReduced) {
-      setVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, visible } = useReveal(0.2);
 
   return (
-    <div ref={listRef} className="flex flex-col">
+    <div ref={ref} className="flex flex-col">
       {profile.hackathons_and_awards.map((item, i) => (
         <div
           key={item.name}

@@ -9,6 +9,7 @@ import Projects from "@/components/sections/projects";
 import Hackathons from "@/components/sections/hackathons";
 import Skills from "@/components/sections/skills";
 import Contact from "@/components/sections/contact";
+import KeyboardNav from "@/components/keyboard-nav";
 import SectionWrapper from "@/components/section-wrapper";
 
 export default function PageContent() {
@@ -20,6 +21,7 @@ export default function PageContent() {
 
   return (
     <>
+      <KeyboardNav />
       <Nav />
       <main>
         <Hero />

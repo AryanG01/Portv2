@@ -51,7 +51,7 @@ export default function Experience() {
       });
 
       // Animate each card sliding in
-      nodeRefs.current.forEach((node, i) => {
+      nodeRefs.current.forEach((node) => {
         if (!node) return;
         gsap.fromTo(
           node,

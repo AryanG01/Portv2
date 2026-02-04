@@ -1,0 +1,116 @@
+{
+  "name": "Aryan Ganju",
+  "headline": "SWE | Final Year Computer Science Undergraduate @ NUS",
+  "location": "Singapore",
+  "contact": {
+    "email": "aryan.ganju@u.nus.edu",
+    "phone_e164": "+6589409011",
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/aryan-ganju",
+      "github": "https://github.com/AryanG01"
+    }
+  },
+  "education": [
+    {
+      "institution": "National University of Singapore",
+      "program": "Bachelor of Computer Science",
+      "specializations": ["Artificial Intelligence / Machine Learning", "Database Systems"],
+      "dates": "Aug 2022 – 2026",
+      "notes": [
+        "Activities: Head of Operations (Google Developer Student Club NUS)",
+        "Ridge View Residential College House Welfare Committee Head",
+        "CS1101S Teaching Assistant",
+        "NUS Judo Member",
+        "RVRC Volleyball Team Member"
+      ]
+    },
+    {
+      "institution": "Ridge View Residential College",
+      "program": "Certificate of Completion, Sustainability Studies",
+      "dates": "Aug 2022 – May 2024",
+      "notes": [
+        "Rusa House Committee Welfare Head",
+        "Organized/participated in kayaking trips aimed at cleaning up ocean trash"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Mercuria",
+      "role": "Intern – Information Technology (Trading Operations) / Software Engineering Intern",
+      "dates": "May 2025 – Oct 2025",
+      "highlights": [
+        "AI/NLP-powered trade validation pipeline: 97% accuracy; reduced manual review workload by 80%",
+        "FastAPI microservice with async batch processing: reduced validation turnaround by ~70%",
+        "Dynamic clause library + auto-fill system: cut drafting time by ~40%",
+        "Semantic matching + normalization dictionaries + RAG-assisted validation to reduce recurring mismatches"
+      ]
+    },
+    {
+      "company": "TVS Digital Pte. Ltd.",
+      "role": "Software Engineer Intern",
+      "dates": "Jun 2024 – Dec 2024",
+      "highlights": [
+        "Automated test data creation with Python/MySQL scripts",
+        "Spearheaded Viber API integration with 7 international partners",
+        "Introduced TDD: 300+ unit tests; raised coverage to ~95%; prevented multiple production bugs",
+        "AWS monitoring/optimization scripts: reduced deployment time and compute costs"
+      ]
+    },
+    {
+      "company": "National University of Singapore",
+      "role": "Teaching Assistant (CS1101S)",
+      "dates": "Aug 2023 – Dec 2023",
+      "highlights": [
+        "Mentored 10+ students; guided project development; achieved 100% passing rate"
+      ]
+    },
+    {
+      "company": "Singapore Army",
+      "role": "Company Quartermaster Sergeant",
+      "dates": "Feb 2020 – Feb 2022",
+      "highlights": [
+        "Managed logistics for multiple batches (250+ recruits per batch)",
+        "Awarded Best Soldier of the Month (2021)"
+      ]
+    }
+  ],
+  "hackathons_and_awards": [
+    {"name": "AIT x Redis x Cloudflare Mini-Hack: Agentformer", "result": "Top 5 in Singapore"},
+    {"name": "Cursor Hackathon Singapore", "result": "Top 15 in Singapore"},
+    {"name": "TikTok TechJam 2025", "result": "Top 12 out of 2300+ participants"},
+    {"name": "Lifehack 2022", "result": "Most Impressive Pre-University Hack"},
+    {"name": "Brainhack 2022", "result": "Certificate of Participation"}
+  ],
+  "projects": [
+    {
+      "name": "GUI Murphy",
+      "context": "TikTok TechJam 2025",
+      "summary": "AI-driven automated QA system for modern applications, focused on GUI behavior beyond pixel diffs.",
+      "details": [
+        "Understands UI state transitions and validates multi-step user journeys via vision + language reasoning",
+        "Pipeline mentions OmniParser (YOLOv8), CLIP, and LLM reasoning",
+        "Real-time progress streaming (FastAPI + WebSockets) conceptually fits a live demo"
+      ],
+      "tags": ["AI", "Vision-Language", "QA Automation", "FastAPI"]
+    },
+    {
+      "name": "2D AI Roguelike Engine",
+      "context": "Cursor Hackathon",
+      "summary": "2D AI-powered game engine for infinite generation with enforced consistency across narrative and visuals.",
+      "details": [
+        "Event logging for narrative memory",
+        "Visual identity caching for consistent NPC appearance",
+        "Procedural rooms with contextual encounters"
+      ],
+      "tags": ["Generative Systems", "Game Engine", "Tools"]
+    }
+  ],
+  "skills": {
+    "languages": ["Python", "Java", "TypeScript", "JavaScript", "C", "C++", "SQL", "HTML", "CSS"],
+    "frameworks": ["React", "Angular", "Node.js", "Spring Boot", "Flutter", "FastAPI"],
+    "data": ["PostgreSQL", "MySQL", "MongoDB", "Supabase"],
+    "cloud_and_tools": ["AWS", "GCP", "Azure", "Docker", "Git", "Vercel", "Redis", "Kafka"],
+    "methods": ["Agile", "Test-Driven Development", "Event-Driven Architecture"]
+  }
+}

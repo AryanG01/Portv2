@@ -1,5 +1,6 @@
 import Nav from "@/components/nav";
 import Hero from "@/components/sections/hero";
+import About from "@/components/sections/about";
 import SectionWrapper from "@/components/section-wrapper";
 
 export default function Home() {
@@ -10,7 +11,7 @@ export default function Home() {
         <Hero />
 
         <SectionWrapper id="about" title="About">
-          <p className="text-muted">About section placeholder</p>
+          <About />
         </SectionWrapper>
 
         <SectionWrapper id="experience" title="Experience">

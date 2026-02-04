@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Nav from "@/components/nav";
 import Hero from "@/components/sections/hero";
 import About from "@/components/sections/about";
 import Experience from "@/components/sections/experience";
 import Projects from "@/components/sections/projects";
 import Hackathons from "@/components/sections/hackathons";
+import Skills from "@/components/sections/skills";
 import SectionWrapper from "@/components/section-wrapper";
 
 export default function PageContent() {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
+
+  const handleSkillToggle = useCallback((skill: string) => {
+    setActiveSkill((prev) => (prev === skill ? null : skill));
+  }, []);
 
   return (
     <>
@@ -35,7 +40,7 @@ export default function PageContent() {
         </SectionWrapper>
 
         <SectionWrapper id="skills" title="Skills">
-          <p className="text-muted">Skills section placeholder</p>
+          <Skills activeSkill={activeSkill} onSkillToggle={handleSkillToggle} />
         </SectionWrapper>
 
         <SectionWrapper id="contact" title="Get in Touch">

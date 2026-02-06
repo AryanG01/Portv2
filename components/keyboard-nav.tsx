@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const SECTIONS = ["hero", "about", "experience", "projects", "awards", "skills", "contact"];
+const SECTIONS = ["hero", "about", "experience", "awards", "projects", "contact"];
 
 export default function KeyboardNav() {
   useEffect(() => {

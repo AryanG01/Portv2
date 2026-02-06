@@ -60,16 +60,48 @@ export default function Contact() {
           <div className="flex flex-col gap-3">
             <a
               href={`tel:${profile.contact.phone_e164}`}
-              className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-border px-5 py-2.5 font-body text-sm text-foreground transition-colors hover:border-foreground/30"
-              style={{ transitionDuration: "var(--duration-fast)" }}
+              className="inline-flex w-fit items-center gap-2.5 rounded-lg px-5 py-2.5 font-body text-sm text-foreground transition-all"
+              style={{
+                background: "rgba(21, 29, 25, 0.5)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                border: "1px solid rgba(16, 185, 129, 0.08)",
+                transitionDuration: "var(--duration-fast)",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "rgba(16, 185, 129, 0.25)";
+                el.style.boxShadow = "0 0 15px rgba(16, 185, 129, 0.08)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "rgba(16, 185, 129, 0.08)";
+                el.style.boxShadow = "none";
+              }}
             >
               <PhoneIcon />
               Call
             </a>
             <a
               href={`sms:${profile.contact.phone_e164}`}
-              className="inline-flex w-fit items-center gap-2.5 rounded-lg border border-border px-5 py-2.5 font-body text-sm text-foreground transition-colors hover:border-foreground/30"
-              style={{ transitionDuration: "var(--duration-fast)" }}
+              className="inline-flex w-fit items-center gap-2.5 rounded-lg px-5 py-2.5 font-body text-sm text-foreground transition-all"
+              style={{
+                background: "rgba(21, 29, 25, 0.5)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                border: "1px solid rgba(16, 185, 129, 0.08)",
+                transitionDuration: "var(--duration-fast)",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "rgba(16, 185, 129, 0.25)";
+                el.style.boxShadow = "0 0 15px rgba(16, 185, 129, 0.08)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "rgba(16, 185, 129, 0.08)";
+                el.style.boxShadow = "none";
+              }}
             >
               <MessageIcon />
               Message
@@ -81,8 +113,19 @@ export default function Contact() {
               href={profile.contact.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted transition-colors hover:text-foreground"
+              className="text-muted transition-all"
+              style={{ transitionDuration: "var(--duration-fast)" }}
               aria-label="GitHub"
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.color = "var(--foreground)";
+                el.style.filter = "drop-shadow(0 0 8px rgba(16, 185, 129, 0.4))";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.color = "var(--muted)";
+                el.style.filter = "none";
+              }}
             >
               <GithubIcon />
             </a>
@@ -90,8 +133,19 @@ export default function Contact() {
               href={profile.contact.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted transition-colors hover:text-foreground"
+              className="text-muted transition-all"
+              style={{ transitionDuration: "var(--duration-fast)" }}
               aria-label="LinkedIn"
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.color = "var(--foreground)";
+                el.style.filter = "drop-shadow(0 0 8px rgba(16, 185, 129, 0.4))";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.color = "var(--muted)";
+                el.style.filter = "none";
+              }}
             >
               <LinkedInIcon />
             </a>
@@ -110,13 +164,46 @@ export default function Contact() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-border pt-8 pb-12 text-center">
+      <footer className="mt-20 pt-8 pb-12 text-center" style={{ borderTop: "1px solid rgba(16, 185, 129, 0.06)" }}>
+        {/* Social links row */}
+        <div className="mb-6 flex items-center justify-center gap-5">
+          <a
+            href={profile.contact.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted transition-all hover:text-foreground"
+            style={{ transitionDuration: "var(--duration-fast)" }}
+            aria-label="GitHub"
+          >
+            <GithubIcon />
+          </a>
+          <a
+            href={profile.contact.links.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted transition-all hover:text-foreground"
+            style={{ transitionDuration: "var(--duration-fast)" }}
+            aria-label="LinkedIn"
+          >
+            <LinkedInIcon />
+          </a>
+          <a
+            href={`mailto:${profile.contact.email}`}
+            className="font-mono text-xs text-muted transition-colors hover:text-accent"
+          >
+            {profile.contact.email}
+          </a>
+        </div>
+
         <p className="font-mono text-xs text-muted">
           &copy; {new Date().getFullYear()} {profile.name}
         </p>
+        <p className="mt-1 font-mono text-[10px] text-muted opacity-60">
+          Built with Next.js & Tailwind
+        </p>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="mt-2 font-mono text-xs text-muted underline transition-colors hover:text-foreground"
+          className="mt-3 font-mono text-xs text-muted underline transition-colors hover:text-accent"
         >
           Back to top
         </button>

@@ -40,10 +40,10 @@
       "role": "Intern – Information Technology (Trading Operations) / Software Engineering Intern",
       "dates": "May 2025 – Oct 2025",
       "highlights": [
-        "AI/NLP-powered trade validation pipeline: 97% accuracy; reduced manual review workload by 80%",
-        "FastAPI microservice with async batch processing: reduced validation turnaround by ~70%",
-        "Dynamic clause library + auto-fill system: cut drafting time by ~40%",
-        "Semantic matching + normalization dictionaries + RAG-assisted validation to reduce recurring mismatches"
+        "Built AI/NLP-powered trade validation pipeline for commodity trading contracts: achieved 97% accuracy, reduced manual review workload by 80%",
+        "Designed FastAPI microservice with async batch processing for cross-team trade operations: reduced validation turnaround by ~70%",
+        "Developed dynamic clause library + auto-fill system with LLM orchestration: cut contract drafting time by ~40%",
+        "Implemented semantic matching + normalization dictionaries + RAG-assisted validation to reduce recurring mismatches across trading desks"
       ]
     },
     {
@@ -51,10 +51,20 @@
       "role": "Software Engineer Intern",
       "dates": "Jun 2024 – Dec 2024",
       "highlights": [
-        "Automated test data creation with Python/MySQL scripts",
-        "Spearheaded Viber API integration with 7 international partners",
-        "Introduced TDD: 300+ unit tests; raised coverage to ~95%; prevented multiple production bugs",
-        "AWS monitoring/optimization scripts: reduced deployment time and compute costs"
+        "Automated test data creation with Python/MySQL scripts for complex messaging workflows",
+        "Spearheaded Viber messaging middleware API integration with 7 international telecom partners",
+        "Championed TDD culture: wrote 300+ unit tests, raised coverage to ~95%, prevented multiple production regressions",
+        "Built AWS monitoring/optimization scripts + CI/CD improvements: reduced deployment time and compute costs"
+      ]
+    },
+    {
+      "company": "Google Developer Student Clubs NUS",
+      "role": "Head of Operations",
+      "dates": "Aug 2024 – Aug 2025",
+      "highlights": [
+        "Led booth setup at Computing Fair 2024, driving 50% increase in sign-ups",
+        "Spearheaded Hack for Good 2025, coordinating tech, marketing, finance, and partnerships",
+        "Developed proposals and event roadmaps working cross-functionally with branding and finance teams"
       ]
     },
     {
@@ -62,16 +72,18 @@
       "role": "Teaching Assistant (CS1101S)",
       "dates": "Aug 2023 – Dec 2023",
       "highlights": [
-        "Mentored 10+ students; guided project development; achieved 100% passing rate"
+        "Mentored 10+ students in functional programming with Source language (JavaScript subset)",
+        "Guided project development and conducted weekly office hours: achieved 100% passing rate"
       ]
     },
     {
-      "company": "Singapore Army",
-      "role": "Company Quartermaster Sergeant",
-      "dates": "Feb 2020 – Feb 2022",
+      "company": "Credence Singapore",
+      "role": "Financial Services Intern",
+      "dates": "Dec 2023",
       "highlights": [
-        "Managed logistics for multiple batches (250+ recruits per batch)",
-        "Awarded Best Soldier of the Month (2021)"
+        "Achieved 5 financial analysis certifications during intensive program",
+        "Developed strategic financial solutions for diverse client portfolios",
+        "Secured 1st place in client simulation challenge"
       ]
     }
   ],
@@ -92,7 +104,9 @@
         "Pipeline mentions OmniParser (YOLOv8), CLIP, and LLM reasoning",
         "Real-time progress streaming (FastAPI + WebSockets) conceptually fits a live demo"
       ],
-      "tags": ["AI", "Vision-Language", "QA Automation", "FastAPI"]
+      "tags": ["Python", "FastAPI", "React", "TypeScript"],
+      "github": "https://github.com/AryanG01/gui-murphy",
+      "demo": null
     },
     {
       "name": "2D AI Roguelike Engine",
@@ -103,7 +117,61 @@
         "Visual identity caching for consistent NPC appearance",
         "Procedural rooms with contextual encounters"
       ],
-      "tags": ["Generative Systems", "Game Engine", "Tools"]
+      "tags": ["TypeScript", "React", "Python"],
+      "github": "https://github.com/AryanG01/roguelike-engine",
+      "demo": null
+    },
+    {
+      "name": "AlphaForge",
+      "context": "Personal Project",
+      "summary": "Cryptocurrency trading platform with real-time market analysis and automated strategy execution.",
+      "details": [
+        "Real-time market data ingestion and analysis pipeline",
+        "Automated trading strategy execution with risk management",
+        "Web dashboard for portfolio monitoring and strategy configuration"
+      ],
+      "tags": ["Python", "FastAPI", "TypeScript", "React", "PostgreSQL", "Docker"],
+      "github": "https://github.com/AryanG01/alphaforge",
+      "demo": null
+    },
+    {
+      "name": "LinkGuard",
+      "context": "HackRoll 2024",
+      "summary": "URL safety analyzer that detects phishing attempts and malicious links in real-time.",
+      "details": [
+        "Multi-layer URL analysis including domain reputation and content scanning",
+        "Browser extension integration for seamless protection",
+        "Machine learning model trained on phishing datasets"
+      ],
+      "tags": ["Python", "JavaScript", "HTML", "CSS"],
+      "github": "https://github.com/AryanG01/linkguard",
+      "demo": null
+    },
+    {
+      "name": "Do-It Volunteering",
+      "context": "Community Project",
+      "summary": "Volunteer management platform connecting organizations with volunteers for community service.",
+      "details": [
+        "Event discovery and registration system for volunteers",
+        "Organization dashboard for managing volunteer activities",
+        "Hours tracking and certificate generation"
+      ],
+      "tags": ["JavaScript", "HTML", "CSS"],
+      "github": "https://github.com/AryanG01/do-it-volunteering",
+      "demo": null
+    },
+    {
+      "name": "Agentformer",
+      "context": "AIT x Redis x Cloudflare Mini-Hack",
+      "summary": "AI agent orchestration system enabling multi-agent collaboration for complex task completion.",
+      "details": [
+        "Multi-agent coordination with Redis pub/sub for real-time communication",
+        "Cloudflare Workers for edge-deployed agent execution",
+        "GCP integration for scalable compute and storage"
+      ],
+      "tags": ["TypeScript", "Redis", "GCP", "Docker"],
+      "github": "https://github.com/AryanG01/agentformer",
+      "demo": null
     }
   ],
   "skills": {

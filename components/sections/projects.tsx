@@ -22,7 +22,7 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
 
   return (
     <>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-5 grid-cols-1 xl:grid-cols-2">
         {profile.projects.map((project, i) => (
           <ProjectCard
             key={project.name}
@@ -44,8 +44,6 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
             : ""}{" "}
           using{" "}
           <span className="text-accent">{activeSkill}</span>
-          {" "}
-          <span aria-hidden="true">&uarr;</span>
         </p>
       )}
     </>

@@ -45,7 +45,7 @@ export default function Experience() {
         scrollTrigger: {
           trigger: container,
           start: "top 70%",
-          end: "bottom 30%",
+          end: "bottom center",
           scrub: 1,
         },
       });

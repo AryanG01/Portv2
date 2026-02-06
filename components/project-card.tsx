@@ -1,7 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 
 interface Project {
   name: string;
@@ -9,6 +10,8 @@ interface Project {
   summary: string;
   details: string[];
   tags: string[];
+  github?: string | null;
+  demo?: string | null;
 }
 
 interface ProjectCardProps {
@@ -18,6 +21,18 @@ interface ProjectCardProps {
   dimmed: boolean;
 }
 
+// Color schemes for different project contexts
+const CONTEXT_COLORS: Record<string, { gradient: string; glow: string }> = {
+  "TikTok TechJam 2025": { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", glow: "rgba(16, 185, 129, 0.3)" },
+  "Cursor Hackathon": { gradient: "linear-gradient(135deg, #8b5cf6, #06b6d4)", glow: "rgba(139, 92, 246, 0.3)" },
+  "Personal Project": { gradient: "linear-gradient(135deg, #f59e0b, #ef4444)", glow: "rgba(245, 158, 11, 0.3)" },
+  "HackRoll 2024": { gradient: "linear-gradient(135deg, #06b6d4, #10b981)", glow: "rgba(6, 182, 212, 0.3)" },
+  "Community Project": { gradient: "linear-gradient(135deg, #10b981, #22c55e)", glow: "rgba(16, 185, 129, 0.3)" },
+  "AIT x Redis x Cloudflare Mini-Hack": { gradient: "linear-gradient(135deg, #ef4444, #f59e0b)", glow: "rgba(239, 68, 68, 0.3)" },
+};
+
+const DEFAULT_COLORS = { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", glow: "rgba(16, 185, 129, 0.3)" };
+
 export default function ProjectCard({
   project,
   isExpanded,
@@ -25,6 +40,8 @@ export default function ProjectCard({
   dimmed,
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const colors = CONTEXT_COLORS[project.context] || DEFAULT_COLORS;
 
   useEffect(() => {
     if (!isExpanded) return;
@@ -46,12 +63,33 @@ export default function ProjectCard({
     <motion.div
       ref={cardRef}
       layout
-      className={`group rounded-xl border border-border bg-surface p-6 transition-all ${
+      className={`group relative rounded-xl p-6 transition-all ${
         dimmed ? "pointer-events-none opacity-30" : "cursor-pointer opacity-100"
       }`}
-      style={{ transitionDuration: "var(--duration-normal)" }}
-      whileHover={!dimmed && !isExpanded ? { y: -3, borderColor: "var(--border-hover)" } : {}}
-      onClick={() => { if (!dimmed && !isExpanded) onToggle(); }}
+      style={{
+        background: "rgba(21, 29, 25, 0.5)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
+        border: "1px solid rgba(16, 185, 129, 0.08)",
+        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
+        transitionDuration: "var(--duration-normal)",
+        overflow: "hidden",
+      }}
+      whileHover={
+        !dimmed && !isExpanded
+          ? {
+              y: -6,
+              borderColor: "rgba(16, 185, 129, 0.25)",
+              boxShadow:
+                `inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 40px ${colors.glow}, 0 0 30px rgba(16, 185, 129, 0.08)`,
+            }
+          : {}
+      }
+      onClick={() => {
+        if (!dimmed && !isExpanded) onToggle();
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       role="button"
       tabIndex={dimmed ? -1 : 0}
       aria-expanded={isExpanded}
@@ -62,55 +100,174 @@ export default function ProjectCard({
         }
       }}
     >
-      <span className="inline-block rounded-md bg-accent-subtle px-2.5 py-1 font-mono text-xs text-accent">
-        {project.context}
-      </span>
+      {/* Hover reveal gradient overlay */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial={{ clipPath: "inset(100% 0 0 0)" }}
+        animate={{ clipPath: isHovered && !dimmed ? "inset(60% 0 0 0)" : "inset(100% 0 0 0)" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        style={{
+          background: colors.gradient,
+          opacity: 0.1,
+        }}
+      />
 
-      <h3 className="mt-3 font-heading text-xl font-semibold text-foreground md:text-2xl">
-        {project.name}
-      </h3>
+      {/* Shine effect on hover */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        initial={{ x: "-100%", opacity: 0 }}
+        animate={{ x: isHovered && !dimmed ? "200%" : "-100%", opacity: isHovered ? 0.15 : 0 }}
+        transition={{ duration: 0.7, ease: "easeInOut" }}
+        style={{
+          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+          width: "50%",
+        }}
+      />
 
-      <p className="mt-2 font-body text-sm leading-relaxed text-muted">
-        {project.summary}
-      </p>
-
-      <div className="mt-4 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <span key={tag} className="rounded-md border border-border px-2.5 py-1 font-mono text-xs text-muted">
-            {tag}
+      <div className="relative z-10">
+        <div className="flex items-start justify-between gap-3">
+          <span
+            className="inline-block rounded-md px-2.5 py-1 font-mono text-xs text-accent"
+            style={{
+              background: "linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1))",
+              border: "1px solid rgba(16, 185, 129, 0.1)",
+            }}
+          >
+            {project.context}
           </span>
-        ))}
+
+          {/* GitHub and Demo links */}
+          <div className="flex items-center gap-2">
+            {project.github && (
+              <motion.a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-muted transition-colors hover:text-accent"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                aria-label={`View ${project.name} on GitHub`}
+              >
+                <FaGithub className="text-lg" />
+              </motion.a>
+            )}
+            {project.demo && (
+              <motion.a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="text-muted transition-colors hover:text-accent"
+                whileHover={{ scale: 1.2 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label={`View ${project.name} live demo`}
+              >
+                <FaExternalLinkAlt className="text-sm" />
+              </motion.a>
+            )}
+          </div>
+        </div>
+
+        <h3 className="mt-3 font-heading text-xl font-semibold text-foreground md:text-2xl">
+          {project.name}
+        </h3>
+
+        <p className="mt-2 font-body text-sm leading-relaxed text-muted">
+          {project.summary}
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <motion.span
+              key={tag}
+              className="rounded-md px-2.5 py-1 font-mono text-xs text-muted transition-colors group-hover:text-foreground-secondary"
+              style={{
+                background: "rgba(21, 29, 25, 0.8)",
+                border: "1px solid rgba(16, 185, 129, 0.06)",
+              }}
+              whileHover={{ scale: 1.1, borderColor: "rgba(16, 185, 129, 0.3)" }}
+            >
+              {tag}
+            </motion.span>
+          ))}
+        </div>
+
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="overflow-hidden"
+            >
+              <div className="mt-4 border-t border-border pt-4">
+                <ul className="space-y-2.5">
+                  {project.details.map((d, i) => (
+                    <motion.li
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex gap-3 font-body text-sm text-muted"
+                    >
+                      <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" style={{ boxShadow: "0 0 4px rgba(16, 185, 129, 0.4)" }} />
+                      {d}
+                    </motion.li>
+                  ))}
+                </ul>
+
+                {/* Links in expanded view */}
+                <div className="mt-4 flex items-center gap-4">
+                  {project.github && (
+                    <motion.a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 font-mono text-xs text-accent transition-colors hover:text-foreground"
+                      whileHover={{ x: 4 }}
+                    >
+                      <FaGithub /> View Code
+                    </motion.a>
+                  )}
+                  {project.demo && (
+                    <motion.a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="inline-flex items-center gap-2 font-mono text-xs text-accent transition-colors hover:text-foreground"
+                      whileHover={{ x: 4 }}
+                    >
+                      <FaExternalLinkAlt /> Live Demo
+                    </motion.a>
+                  )}
+                </div>
+
+                <button
+                  onClick={(e) => { e.stopPropagation(); onToggle(); }}
+                  className="mt-4 font-mono text-xs text-muted transition-colors hover:text-accent"
+                  aria-label={`Close ${project.name} details`}
+                >
+                  Close &times;
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="overflow-hidden"
-          >
-            <div className="mt-4 border-t border-border pt-4">
-              <ul className="space-y-2.5">
-                {project.details.map((d, i) => (
-                  <li key={i} className="flex gap-3 font-body text-sm text-muted">
-                    <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
-                    {d}
-                  </li>
-                ))}
-              </ul>
-              <button
-                onClick={(e) => { e.stopPropagation(); onToggle(); }}
-                className="mt-4 font-mono text-xs text-muted transition-colors hover:text-accent"
-                aria-label={`Close ${project.name} details`}
-              >
-                Close &times;
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Corner accent */}
+      <div
+        className="absolute -bottom-10 -right-10 h-24 w-24 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background: colors.gradient,
+          filter: "blur(30px)",
+        }}
+      />
     </motion.div>
   );
 }

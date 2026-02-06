@@ -39,11 +39,7 @@ export default function Skills({ activeSkill, onSkillToggle }: SkillsSectionProp
 
       {activeSkill && (
         <p className="pt-2 font-mono text-xs text-muted">
-          Showing projects using{" "}
-          <span className="text-accent">{activeSkill}</span>
-          {" "}above{" "}
-          <span aria-hidden="true">&uarr;</span>
-          {" "}&middot;{" "}
+          Showing matching projects{" "}&middot;{" "}
           <button
             onClick={() => onSkillToggle(activeSkill)}
             className="underline transition-colors hover:text-foreground"

@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { Crimson_Pro, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const crimsonPro = Crimson_Pro({
+const syne = Syne({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-heading",
-  weight: ["400", "600"],
+  weight: ["400", "600", "700", "800"],
 });
 
-const ibmPlexSans = IBM_Plex_Sans({
+const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-body",
-  weight: ["400", "500"],
+  weight: ["300", "400", "500", "600"],
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono",
@@ -68,7 +68,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${crimsonPro.variable} ${ibmPlexSans.variable} ${ibmPlexMono.variable} antialiased`}
+        className={`${syne.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <a
           href="#about"

@@ -43,10 +43,42 @@ export default function MagneticButton({
 
   const baseStyles =
     "inline-flex items-center justify-center rounded-lg px-6 py-3 font-body text-sm font-medium transition-all";
-  const variants = {
-    primary: `${baseStyles} bg-accent text-background hover:bg-accent-hover`,
-    outline: `${baseStyles} border border-border text-foreground hover:border-border-hover hover:bg-surface`,
+
+  const variantStyles = {
+    primary: {
+      base: {
+        background: "linear-gradient(135deg, #10b981, #06b6d4)",
+        color: "var(--background)",
+        boxShadow: "0 0 20px rgba(16, 185, 129, 0.2)",
+      },
+      hover: {
+        background: "linear-gradient(135deg, #10b981, #06b6d4)",
+        color: "var(--background)",
+        boxShadow: "0 0 30px rgba(16, 185, 129, 0.35), 0 0 60px rgba(16, 185, 129, 0.1)",
+      },
+    },
+    outline: {
+      base: {
+        background: "rgba(21, 29, 25, 0.4)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        color: "var(--foreground)",
+        border: "1px solid rgba(16, 185, 129, 0.12)",
+      },
+      hover: {
+        background: "rgba(21, 29, 25, 0.6)",
+        backdropFilter: "blur(8px)",
+        WebkitBackdropFilter: "blur(8px)",
+        color: "var(--foreground)",
+        border: "1px solid rgba(16, 185, 129, 0.3)",
+        boxShadow: "0 0 15px rgba(16, 185, 129, 0.1)",
+      },
+    },
   };
+
+  const currentStyle = hovered
+    ? variantStyles[variant].hover
+    : variantStyles[variant].base;
 
   const Tag = href ? "a" : "button";
 
@@ -68,8 +100,9 @@ export default function MagneticButton({
           }
           onClick?.();
         }}
-        className={`${variants[variant]} ${className}`}
+        className={`${baseStyles} ${className}`}
         style={{
+          ...currentStyle,
           transform: hovered ? "scale(1.03)" : "scale(1)",
           transitionDuration: "var(--duration-fast)",
         }}

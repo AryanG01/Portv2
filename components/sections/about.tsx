@@ -1,6 +1,7 @@
 "use client";
 
 import { useReveal } from "@/hooks/use-reveal";
+import GitHubActivity from "@/components/github-activity";
 
 const HIGHLIGHTS = [
   { label: "Education", value: "NUS CS — AI/ML & Database Systems", icon: "🎓" },
@@ -50,55 +51,61 @@ export default function About() {
         </p>
       </div>
 
-      <div ref={ref} className="flex flex-col gap-3">
-        {HIGHLIGHTS.map((h, i) => (
-          <div
-            key={h.label}
-            className="rounded-xl p-5 transition-all"
-            style={{
-              background: "rgba(21, 29, 25, 0.5)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(16, 185, 129, 0.08)",
-              boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.98)",
-              transition: `all var(--duration-normal) var(--ease-default)`,
-              transitionDelay: visible ? `${i * 60}ms` : "0ms",
-            }}
-            onMouseEnter={(e) => {
-              const el = e.currentTarget;
-              el.style.borderColor = "rgba(16, 185, 129, 0.2)";
-              el.style.boxShadow = `inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 0 20px ${CARD_GLOWS[i]}`;
-            }}
-            onMouseLeave={(e) => {
-              const el = e.currentTarget;
-              el.style.borderColor = "rgba(16, 185, 129, 0.08)";
-              el.style.boxShadow = "inset 0 1px 0 rgba(255, 255, 255, 0.03)";
-            }}
-          >
-            <div className="flex items-center gap-3">
-              {/* Icon with glow ring */}
-              <div
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-lg"
-                style={{
-                  background: "rgba(16, 185, 129, 0.06)",
-                  boxShadow: `0 0 12px ${CARD_GLOWS[i]}`,
-                }}
-              >
-                {h.icon}
-              </div>
-              <div>
-                <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">
-                  {h.label}
-                </span>
-                <span className="mt-0.5 block font-body text-sm font-medium text-foreground">
-                  {h.value}
-                </span>
+      <div ref={ref} className="flex flex-col gap-5">
+        {/* Highlight cards */}
+        <div className="flex flex-col gap-3">
+          {HIGHLIGHTS.map((h, i) => (
+            <div
+              key={h.label}
+              className="rounded-xl p-5 transition-all"
+              style={{
+                background: "rgba(21, 29, 25, 0.5)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                border: "1px solid rgba(16, 185, 129, 0.08)",
+                boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0) scale(1)" : "translateY(12px) scale(0.98)",
+                transition: `all var(--duration-normal) var(--ease-default)`,
+                transitionDelay: visible ? `${i * 60}ms` : "0ms",
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "rgba(16, 185, 129, 0.2)";
+                el.style.boxShadow = `inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 0 20px ${CARD_GLOWS[i]}`;
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget;
+                el.style.borderColor = "rgba(16, 185, 129, 0.08)";
+                el.style.boxShadow = "inset 0 1px 0 rgba(255, 255, 255, 0.03)";
+              }}
+            >
+              <div className="flex items-center gap-3">
+                {/* Icon with glow ring */}
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-lg"
+                  style={{
+                    background: "rgba(16, 185, 129, 0.06)",
+                    boxShadow: `0 0 12px ${CARD_GLOWS[i]}`,
+                  }}
+                >
+                  {h.icon}
+                </div>
+                <div>
+                  <span className="block font-mono text-[10px] uppercase tracking-widest text-muted">
+                    {h.label}
+                  </span>
+                  <span className="mt-0.5 block font-body text-sm font-medium text-foreground">
+                    {h.value}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        {/* GitHub Activity */}
+        <GitHubActivity />
       </div>
     </div>
   );

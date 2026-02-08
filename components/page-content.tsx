@@ -14,6 +14,7 @@ import SectionWrapper from "@/components/section-wrapper";
 import BackgroundEffects from "@/components/background-effects";
 import SmoothScrollProvider from "@/components/smooth-scroll-provider";
 import ScrollProgress from "@/components/scroll-progress";
+import CustomCursor from "@/components/custom-cursor";
 
 function Divider() {
   return (
@@ -34,6 +35,7 @@ export default function PageContent() {
     <SmoothScrollProvider>
       <BackgroundEffects />
       <ScrollProgress />
+      <CustomCursor />
       <KeyboardNav />
       <Nav />
       <main>

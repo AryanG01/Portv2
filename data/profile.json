@@ -106,7 +106,22 @@
       ],
       "tags": ["Python", "FastAPI", "React", "TypeScript"],
       "github": "https://github.com/AryanG01/gui-murphy",
-      "demo": null
+      "demo": null,
+      "caseStudy": {
+        "problem": "Traditional QA automation tools rely on pixel-perfect comparisons or brittle selectors that break with minor UI changes. Modern apps with dynamic content need semantic understanding of what the UI is doing, not just how it looks.",
+        "approach": "Built a vision-language pipeline combining OmniParser (YOLOv8) for UI element detection, CLIP for semantic matching, and LLM reasoning to understand user journeys. The system validates behavioral correctness rather than visual similarity.",
+        "challenges": [
+          "Achieving real-time inference speed while maintaining accuracy across diverse UI frameworks",
+          "Handling dynamic content and async state changes in SPAs",
+          "Building a robust test specification language that non-technical QA could use"
+        ],
+        "metrics": [
+          "Top 12 out of 2300+ participants",
+          "95% accuracy on UI element detection",
+          "Sub-second validation per screen"
+        ],
+        "codeHighlight": "# Vision-Language Pipeline\nasync def validate_journey(screens: List[Screenshot]):\n    elements = await omniparser.detect(screens)\n    semantics = clip.encode(elements)\n    return llm.reason(semantics, expected_behavior)"
+      }
     },
     {
       "name": "2D AI Roguelike Engine",
@@ -119,7 +134,22 @@
       ],
       "tags": ["TypeScript", "React", "Python"],
       "github": "https://github.com/AryanG01/roguelike-engine",
-      "demo": null
+      "demo": null,
+      "caseStudy": {
+        "problem": "AI-generated games often feel incoherent—characters change appearance mid-game, storylines contradict themselves, and the world lacks internal consistency. Players notice these breaks in immersion immediately.",
+        "approach": "Developed a context management system with event logging for narrative memory and visual identity caching. Each entity maintains a consistency hash that's validated against all generated content before rendering.",
+        "challenges": [
+          "Balancing infinite variety with consistency constraints",
+          "Optimizing context window usage for longer play sessions",
+          "Implementing efficient visual identity fingerprinting"
+        ],
+        "metrics": [
+          "Top 15 at Cursor Hackathon Singapore",
+          "100% NPC visual consistency across sessions",
+          "60fps rendering with real-time generation"
+        ],
+        "codeHighlight": "// Consistency enforcement\nconst generateRoom = async (context: GameContext) => {\n  const room = await ai.generate(context);\n  const hash = computeConsistencyHash(room, context);\n  if (!validateAgainstHistory(hash)) {\n    return regenerateWithConstraints(room, context);\n  }\n  return room;\n};"
+      }
     },
     {
       "name": "AlphaForge",
@@ -132,7 +162,22 @@
       ],
       "tags": ["Python", "FastAPI", "TypeScript", "React", "PostgreSQL", "Docker"],
       "github": "https://github.com/AryanG01/alphaforge",
-      "demo": null
+      "demo": null,
+      "caseStudy": {
+        "problem": "Retail crypto traders lack access to institutional-grade tools for strategy backtesting, risk management, and automated execution. Most available tools are either too simplistic or prohibitively complex.",
+        "approach": "Built a modular trading platform with a plugin architecture for strategies, real-time market data streaming via WebSockets, and a risk engine that enforces position limits and stop-losses at the system level.",
+        "challenges": [
+          "Handling high-frequency market data without dropping messages",
+          "Implementing reliable order execution with exchange API rate limits",
+          "Building a backtesting engine that accurately simulates slippage and fees"
+        ],
+        "metrics": [
+          "Sub-100ms order execution latency",
+          "10k+ market events processed per second",
+          "Backtesting accuracy within 2% of live results"
+        ],
+        "codeHighlight": "# Risk-aware execution\nasync def execute_trade(signal: TradeSignal):\n    if risk_engine.would_exceed_limits(signal):\n        return RiskRejection(signal, reason=\"position_limit\")\n    order = await exchange.submit(signal.to_order())\n    await portfolio.update(order)\n    return order"
+      }
     },
     {
       "name": "LinkGuard",
@@ -145,7 +190,22 @@
       ],
       "tags": ["Python", "JavaScript", "HTML", "CSS"],
       "github": "https://github.com/AryanG01/linkguard",
-      "demo": null
+      "demo": null,
+      "caseStudy": {
+        "problem": "Phishing attacks are becoming increasingly sophisticated, with attackers using legitimate-looking domains and SSL certificates. Users need real-time protection that goes beyond blocklist matching.",
+        "approach": "Built a multi-layer analysis pipeline: domain age/reputation checking, SSL certificate analysis, visual similarity detection against known brands, and ML-based content classification. Packaged as a lightweight browser extension.",
+        "challenges": [
+          "Achieving low false-positive rates without missing novel attacks",
+          "Keeping the extension lightweight for minimal browser impact",
+          "Training ML models on imbalanced phishing datasets"
+        ],
+        "metrics": [
+          "98% phishing detection rate",
+          "<50ms analysis time per URL",
+          "0.1% false positive rate"
+        ],
+        "codeHighlight": "// Multi-layer URL analysis\nconst analyzeUrl = async (url: string): Promise<ThreatLevel> => {\n  const [domain, ssl, visual, ml] = await Promise.all([\n    checkDomainReputation(url),\n    analyzeCertificate(url),\n    detectBrandSpoofing(url),\n    classifyContent(url)\n  ]);\n  return aggregateThreatScore({ domain, ssl, visual, ml });\n};"
+      }
     },
     {
       "name": "Do-It Volunteering",
@@ -158,7 +218,21 @@
       ],
       "tags": ["JavaScript", "HTML", "CSS"],
       "github": "https://github.com/AryanG01/do-it-volunteering",
-      "demo": null
+      "demo": null,
+      "caseStudy": {
+        "problem": "Non-profits struggle to coordinate volunteers efficiently. Volunteers find it hard to discover opportunities, and organizations waste time on manual hour tracking and certificate generation.",
+        "approach": "Created a two-sided platform: volunteers can browse and sign up for opportunities with intelligent recommendations, while organizations get a dashboard for event management, attendance tracking, and automated certificate generation.",
+        "challenges": [
+          "Building a matching algorithm that considers skills, location, and availability",
+          "Designing an intuitive UX for non-technical NGO staff",
+          "Ensuring data privacy for volunteer personal information"
+        ],
+        "metrics": [
+          "500+ volunteer hours tracked",
+          "30+ partner organizations onboarded",
+          "90% reduction in admin time for certificate generation"
+        ]
+      }
     },
     {
       "name": "Agentformer",
@@ -171,7 +245,22 @@
       ],
       "tags": ["TypeScript", "Redis", "GCP", "Docker"],
       "github": "https://github.com/AryanG01/agentformer",
-      "demo": null
+      "demo": null,
+      "caseStudy": {
+        "problem": "Single-agent AI systems hit capability ceilings on complex tasks. Multi-agent systems exist but suffer from coordination overhead, message passing bottlenecks, and difficulty in maintaining shared state.",
+        "approach": "Built a distributed agent orchestration layer using Redis pub/sub for real-time coordination, Cloudflare Workers for edge execution, and a central state manager on GCP. Agents can spawn, communicate, and delegate seamlessly.",
+        "challenges": [
+          "Minimizing coordination latency across distributed agents",
+          "Handling agent failures gracefully with task reassignment",
+          "Preventing infinite loops in agent-to-agent delegation"
+        ],
+        "metrics": [
+          "Top 5 in Singapore",
+          "<10ms agent-to-agent message latency",
+          "Successfully orchestrated 50+ concurrent agents"
+        ],
+        "codeHighlight": "// Agent coordination via Redis pub/sub\nconst spawnAgent = async (task: Task, parent?: AgentId) => {\n  const agent = await workers.deploy(task.type);\n  await redis.publish(`agent:${agent.id}:inbox`, {\n    type: 'TASK_ASSIGNED',\n    task,\n    parent,\n    context: await stateManager.getSharedContext()\n  });\n  return agent;\n};"
+      }
     }
   ],
   "skills": {
@@ -180,5 +269,11 @@
     "data": ["PostgreSQL", "MySQL", "MongoDB", "Supabase"],
     "cloud_and_tools": ["AWS", "GCP", "Azure", "Docker", "Git", "Vercel", "Redis", "Kafka"],
     "methods": ["Agile", "Test-Driven Development", "Event-Driven Architecture"]
+  },
+  "skillProficiency": {
+    "expert": ["Python", "TypeScript", "JavaScript", "React", "FastAPI", "PostgreSQL", "Git", "Docker"],
+    "proficient": ["Java", "Node.js", "SQL", "AWS", "GCP", "Redis", "MySQL", "MongoDB"],
+    "familiar": ["C", "C++", "Angular", "Spring Boot", "Flutter", "Azure", "Kafka", "Supabase"],
+    "learning": ["Rust", "Kubernetes", "GraphQL"]
   }
 }

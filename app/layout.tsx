@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
+import { ToastProvider } from "@/components/toast";
 import "./globals.css";
 
 const syne = Syne({
@@ -25,6 +26,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aryanganju.com";
 
+export const viewport: Viewport = {
+  themeColor: "#10b981",
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Aryan Ganju - Software Engineer",
@@ -39,6 +44,12 @@ export const metadata: Metadata = {
     "Full Stack Developer",
   ],
   authors: [{ name: "Aryan Ganju" }],
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Aryan Ganju",
+  },
   openGraph: {
     title: "Aryan Ganju - Software Engineer",
     description:
@@ -58,6 +69,15 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -76,7 +96,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        {children}
+        <ToastProvider>{children}</ToastProvider>
       </body>
     </html>
   );

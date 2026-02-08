@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import ProjectCard from "@/components/project-card";
+import ProjectDetailModal from "@/components/project-detail-modal";
 import profile from "@/data/profile.json";
 
 interface ProjectsSectionProps {
@@ -9,7 +10,7 @@ interface ProjectsSectionProps {
 }
 
 export default function Projects({ activeSkill }: ProjectsSectionProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
 
   const isMatch = useCallback(
     (tags: string[]) => {
@@ -20,6 +21,8 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
     [activeSkill]
   );
 
+  const selectedProject = selectedProjectIndex !== null ? profile.projects[selectedProjectIndex] : null;
+
   return (
     <>
       <div className="grid gap-5 grid-cols-1 xl:grid-cols-2">
@@ -27,10 +30,7 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
           <ProjectCard
             key={project.name}
             project={project}
-            isExpanded={expandedIndex === i}
-            onToggle={() =>
-              setExpandedIndex(expandedIndex === i ? null : i)
-            }
+            onSelect={() => setSelectedProjectIndex(i)}
             dimmed={!!activeSkill && !isMatch(project.tags)}
           />
         ))}
@@ -46,6 +46,12 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
           <span className="text-accent">{activeSkill}</span>
         </p>
       )}
+
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={selectedProjectIndex !== null}
+        onClose={() => setSelectedProjectIndex(null)}
+      />
     </>
   );
 }

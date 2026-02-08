@@ -9,6 +9,7 @@ interface MagneticButtonProps {
   onClick?: () => void;
   variant?: "primary" | "outline";
   className?: string;
+  download?: boolean;
 }
 
 export default function MagneticButton({
@@ -17,6 +18,7 @@ export default function MagneticButton({
   onClick,
   variant = "primary",
   className = "",
+  download = false,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
@@ -93,6 +95,7 @@ export default function MagneticButton({
     >
       <Tag
         href={href}
+        {...(download && href ? { download: true } : {})}
         onClick={(e) => {
           if (href?.startsWith("#")) {
             e.preventDefault();

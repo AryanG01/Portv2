@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useToast } from "@/components/toast";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -22,19 +23,22 @@ declare global {
   }
 }
 
+// Pre-generated confetti particles (deterministic, avoids Math.random during render)
+const CONFETTI_COLORS = ["#10b981", "#06b6d4", "#f59e0b", "#8b5cf6"];
+const CONFETTI_PARTICLES = Array.from({ length: 50 }, (_, i) => ({
+  id: i,
+  x: ((i * 37 + 13) % 100),
+  delay: (i % 10) * 0.05,
+  duration: 1 + (i % 5) * 0.25,
+  color: CONFETTI_COLORS[i % 4],
+}));
+
 // Confetti particle component
 function Confetti() {
-  const particles = Array.from({ length: 50 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    delay: Math.random() * 0.5,
-    duration: 1 + Math.random() * 1,
-    color: ["#10b981", "#06b6d4", "#f59e0b", "#8b5cf6"][Math.floor(Math.random() * 4)],
-  }));
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {particles.map((p) => (
+      {CONFETTI_PARTICLES.map((p) => (
         <motion.div
           key={p.id}
           className="absolute h-2 w-2 rounded-full"
@@ -64,6 +68,7 @@ export default function ContactForm() {
   const [showConfetti, setShowConfetti] = useState(false);
   const turnstileRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string>("");
+  const { toast } = useToast();
 
   useEffect(() => {
     const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -139,6 +144,7 @@ export default function ContactForm() {
 
       setFormState("success");
       setShowConfetti(true);
+      toast("Message sent successfully!", "success");
       form.reset();
 
       // Reset turnstile
@@ -153,6 +159,7 @@ export default function ContactForm() {
       }, 3000);
     } catch {
       setError("Network error. Please try again.");
+      toast("Network error. Please try again.", "error");
       setFormState("error");
     }
   };

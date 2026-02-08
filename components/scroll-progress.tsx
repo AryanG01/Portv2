@@ -1,20 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 
+function subscribe(callback: () => void) {
+  // no-op — we just need a stable identity for initial render check
+  callback();
+  return () => {};
+}
+
+function useHasMounted() {
+  return useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false
+  );
+}
+
 export default function ScrollProgress() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useHasMounted();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001,
   });
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   if (!mounted) return null;
 

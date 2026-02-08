@@ -3,7 +3,9 @@
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
+import { FaDownload } from "react-icons/fa";
 import MagneticButton from "@/components/magnetic-button";
+import { useToast } from "@/components/toast";
 import profile from "@/data/profile.json";
 
 const PARTICLES = [
@@ -150,6 +152,7 @@ function ScrollChevron() {
 export default function Hero() {
   const [imageError, setImageError] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
+  const { toast } = useToast();
   const firstName = profile.name.split(" ")[0];
   const lastName = profile.name.split(" ")[1];
 
@@ -340,6 +343,15 @@ export default function Hero() {
               </MagneticButton>
               <MagneticButton href="#contact" variant="outline">
                 Get in Touch
+              </MagneticButton>
+              <MagneticButton
+                href="/Aryan_Ganju_Resume.pdf"
+                variant="outline"
+                download
+                onClick={() => toast("Resume download started", "success")}
+              >
+                <FaDownload className="mr-2 text-sm" />
+                Resume
               </MagneticButton>
             </motion.div>
           </div>

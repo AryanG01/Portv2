@@ -1,8 +1,16 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
+import { useRef, useState } from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+
+interface ProjectCaseStudy {
+  problem?: string;
+  approach?: string;
+  challenges?: string[];
+  metrics?: string[];
+  codeHighlight?: string;
+}
 
 interface Project {
   name: string;
@@ -12,12 +20,12 @@ interface Project {
   tags: string[];
   github?: string | null;
   demo?: string | null;
+  caseStudy?: ProjectCaseStudy;
 }
 
 interface ProjectCardProps {
   project: Project;
-  isExpanded: boolean;
-  onToggle: () => void;
+  onSelect: () => void;
   dimmed: boolean;
 }
 
@@ -35,29 +43,12 @@ const DEFAULT_COLORS = { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", 
 
 export default function ProjectCard({
   project,
-  isExpanded,
-  onToggle,
+  onSelect,
   dimmed,
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const colors = CONTEXT_COLORS[project.context] || DEFAULT_COLORS;
-
-  useEffect(() => {
-    if (!isExpanded) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onToggle();
-    };
-    const handleClickOutside = (e: MouseEvent) => {
-      if (cardRef.current && !cardRef.current.contains(e.target as Node)) onToggle();
-    };
-    document.addEventListener("keydown", handleKey);
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isExpanded, onToggle]);
 
   return (
     <motion.div
@@ -76,7 +67,7 @@ export default function ProjectCard({
         overflow: "hidden",
       }}
       whileHover={
-        !dimmed && !isExpanded
+        !dimmed
           ? {
               y: -6,
               borderColor: "rgba(16, 185, 129, 0.25)",
@@ -86,17 +77,17 @@ export default function ProjectCard({
           : {}
       }
       onClick={() => {
-        if (!dimmed && !isExpanded) onToggle();
+        if (!dimmed) onSelect();
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       role="button"
       tabIndex={dimmed ? -1 : 0}
-      aria-expanded={isExpanded}
+      aria-haspopup="dialog"
       onKeyDown={(e) => {
         if ((e.key === "Enter" || e.key === " ") && !dimmed) {
           e.preventDefault();
-          onToggle();
+          onSelect();
         }
       }}
     >
@@ -194,70 +185,18 @@ export default function ProjectCard({
           ))}
         </div>
 
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="overflow-hidden"
-            >
-              <div className="mt-4 border-t border-border pt-4">
-                <ul className="space-y-2.5">
-                  {project.details.map((d, i) => (
-                    <motion.li
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex gap-3 font-body text-sm text-muted"
-                    >
-                      <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent" style={{ boxShadow: "0 0 4px rgba(16, 185, 129, 0.4)" }} />
-                      {d}
-                    </motion.li>
-                  ))}
-                </ul>
-
-                {/* Links in expanded view */}
-                <div className="mt-4 flex items-center gap-4">
-                  {project.github && (
-                    <motion.a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-2 font-mono text-xs text-accent transition-colors hover:text-foreground"
-                      whileHover={{ x: 4 }}
-                    >
-                      <FaGithub /> View Code
-                    </motion.a>
-                  )}
-                  {project.demo && (
-                    <motion.a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-2 font-mono text-xs text-accent transition-colors hover:text-foreground"
-                      whileHover={{ x: 4 }}
-                    >
-                      <FaExternalLinkAlt /> Live Demo
-                    </motion.a>
-                  )}
-                </div>
-
-                <button
-                  onClick={(e) => { e.stopPropagation(); onToggle(); }}
-                  className="mt-4 font-mono text-xs text-muted transition-colors hover:text-accent"
-                  aria-label={`Close ${project.name} details`}
-                >
-                  Close &times;
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Case study indicator */}
+        {project.caseStudy && (
+          <motion.div
+            className="mt-4 inline-flex items-center gap-2 font-mono text-xs text-accent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" style={{ boxShadow: "0 0 6px rgba(16, 185, 129, 0.6)" }} />
+            Click for case study
+          </motion.div>
+        )}
       </div>
 
       {/* Corner accent */}

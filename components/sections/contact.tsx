@@ -195,12 +195,6 @@ export default function Contact() {
           </a>
         </div>
 
-        <p className="font-mono text-xs text-muted">
-          &copy; {new Date().getFullYear()} {profile.name}
-        </p>
-        <p className="mt-1 font-mono text-[10px] text-muted opacity-60">
-          Built with Next.js & Tailwind
-        </p>
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="mt-3 font-mono text-xs text-muted underline transition-colors hover:text-accent"

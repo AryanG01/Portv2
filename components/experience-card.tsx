@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface ExperienceEntry {
   company: string;
@@ -27,6 +28,12 @@ export default function ExperienceCard({
   isExpanded,
   onToggle,
 }: ExperienceCardProps) {
+  const reduced = useReducedMotion();
+
+  const springTransition = reduced
+    ? { duration: 0 }
+    : { type: "spring" as const, stiffness: 400, damping: 30 };
+
   return (
     <motion.div
       role="button"
@@ -47,12 +54,25 @@ export default function ExperienceCard({
         border: "1px solid rgba(16, 185, 129, 0.08)",
         boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
       }}
-      whileHover={{
-        y: -4,
-        borderColor: "rgba(16, 185, 129, 0.25)",
-        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 40px rgba(16, 185, 129, 0.12), 0 0 30px rgba(16, 185, 129, 0.08)",
-      }}
-      transition={{ duration: 0.3 }}
+      whileHover={
+        reduced
+          ? {}
+          : {
+              y: -4,
+              borderColor: "rgba(16, 185, 129, 0.25)",
+              boxShadow:
+                "inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 40px rgba(16, 185, 129, 0.12), 0 0 30px rgba(16, 185, 129, 0.08)",
+            }
+      }
+      // Subtle scale pulse on expand
+      animate={
+        reduced
+          ? {}
+          : isExpanded
+            ? { scale: [1, 1.01, 1] }
+            : { scale: 1 }
+      }
+      transition={springTransition}
     >
       {/* Hover gradient overlay */}
       <motion.div
@@ -69,7 +89,7 @@ export default function ExperienceCard({
         <div className="flex items-start justify-between gap-4">
           <motion.h3
             className="font-heading text-xl font-semibold text-foreground md:text-2xl"
-            whileHover={{ x: 4 }}
+            whileHover={reduced ? {} : { x: 4 }}
             transition={{ duration: 0.2 }}
           >
             {entry.company}
@@ -80,7 +100,7 @@ export default function ExperienceCard({
               background: "linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1))",
               border: "1px solid rgba(16, 185, 129, 0.1)",
             }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={reduced ? {} : { scale: 1.05 }}
           >
             {entry.dates}
           </motion.span>
@@ -97,25 +117,68 @@ export default function ExperienceCard({
       <AnimatePresence>
         {isExpanded && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
+            initial={reduced ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            exit={reduced ? { height: 0, opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={springTransition}
             className="relative z-10 overflow-hidden"
           >
-            <ul className="mt-4 space-y-3 border-t border-border pt-4">
+            {/* Glowing underline that expands across the card */}
+            <motion.div
+              className="mt-4 h-px"
+              style={{
+                background: "linear-gradient(90deg, rgba(16, 185, 129, 0.5), rgba(6, 182, 212, 0.3), transparent)",
+              }}
+              initial={reduced ? { width: "100%" } : { width: 0 }}
+              animate={{ width: "100%" }}
+              transition={
+                reduced
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 300, damping: 25, delay: 0.05 }
+              }
+            />
+            {/* Glow effect underneath the line */}
+            <motion.div
+              className="h-px"
+              style={{
+                background: "linear-gradient(90deg, rgba(16, 185, 129, 0.3), rgba(6, 182, 212, 0.15), transparent)",
+                filter: "blur(4px)",
+              }}
+              initial={reduced ? { width: "100%" } : { width: 0 }}
+              animate={{ width: "100%" }}
+              transition={
+                reduced
+                  ? { duration: 0 }
+                  : { type: "spring", stiffness: 300, damping: 25, delay: 0.05 }
+              }
+            />
+
+            <ul className="mt-4 space-y-3 pt-2">
               {entry.highlights.map((h, i) => (
                 <motion.li
                   key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
+                  initial={
+                    reduced
+                      ? { opacity: 1 }
+                      : { opacity: 0, x: -10, filter: "blur(4px)" }
+                  }
+                  animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                  transition={
+                    reduced
+                      ? { duration: 0 }
+                      : {
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 30,
+                          delay: i * 0.08,
+                        }
+                  }
                   className="flex gap-3 font-body text-sm"
                 >
                   <motion.span
                     className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
                     style={{ boxShadow: "0 0 4px rgba(16, 185, 129, 0.4)" }}
-                    whileHover={{ scale: 1.5 }}
+                    whileHover={reduced ? {} : { scale: 1.5 }}
                   />
                   <span
                     className="text-muted"
@@ -130,7 +193,7 @@ export default function ExperienceCard({
 
       <motion.div
         className="relative z-10 mt-3 flex items-center gap-1.5"
-        whileHover={{ x: 4 }}
+        whileHover={reduced ? {} : { x: 4 }}
         transition={{ duration: 0.2 }}
       >
         <span className="font-mono text-xs text-muted/40 transition-colors group-hover:text-accent">
@@ -140,7 +203,7 @@ export default function ExperienceCard({
           width="12" height="12" viewBox="0 0 12 12" fill="none"
           className="text-muted/40 transition-colors group-hover:text-accent"
           animate={{ rotate: isExpanded ? 180 : 0 }}
-          transition={{ duration: 0.3 }}
+          transition={reduced ? { duration: 0 } : { duration: 0.3 }}
         >
           <path d="M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
         </motion.svg>

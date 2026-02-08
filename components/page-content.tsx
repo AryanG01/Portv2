@@ -11,6 +11,7 @@ import Skills from "@/components/sections/skills";
 import Contact from "@/components/sections/contact";
 import KeyboardNav from "@/components/keyboard-nav";
 import SectionWrapper from "@/components/section-wrapper";
+import GitHubActivity from "@/components/github-activity";
 import BackgroundEffects from "@/components/background-effects";
 import SmoothScrollProvider from "@/components/smooth-scroll-provider";
 import ScrollProgress from "@/components/scroll-progress";
@@ -46,6 +47,8 @@ export default function PageContent() {
         <SectionWrapper id="about" title="About">
           <About />
         </SectionWrapper>
+
+        <GitHubActivity />
 
         <Divider />
 

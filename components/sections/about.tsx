@@ -1,7 +1,6 @@
 "use client";
 
 import { useReveal } from "@/hooks/use-reveal";
-import GitHubActivity from "@/components/github-activity";
 
 const HIGHLIGHTS = [
   { label: "Education", value: "NUS CS — AI/ML & Database Systems", icon: "🎓" },
@@ -104,8 +103,6 @@ export default function About() {
           ))}
         </div>
 
-        {/* GitHub Activity */}
-        <GitHubActivity />
       </div>
     </div>
   );

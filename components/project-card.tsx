@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 interface ProjectCaseStudy {
   problem?: string;
@@ -25,11 +26,12 @@ interface Project {
 
 interface ProjectCardProps {
   project: Project;
+  index: number;
+  isSelected: boolean;
   onSelect: () => void;
   dimmed: boolean;
 }
 
-// Color schemes for different project contexts
 const CONTEXT_COLORS: Record<string, { gradient: string; glow: string }> = {
   "TikTok TechJam 2025": { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", glow: "rgba(16, 185, 129, 0.3)" },
   "Cursor Hackathon": { gradient: "linear-gradient(135deg, #8b5cf6, #06b6d4)", glow: "rgba(139, 92, 246, 0.3)" },
@@ -43,18 +45,44 @@ const DEFAULT_COLORS = { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", 
 
 export default function ProjectCard({
   project,
+  index,
+  isSelected,
   onSelect,
   dimmed,
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [cardHeight, setCardHeight] = useState<number>(0);
+  const reduced = useReducedMotion();
   const colors = CONTEXT_COLORS[project.context] || DEFAULT_COLORS;
+
+  // Capture card height for ghost placeholder
+  useEffect(() => {
+    if (cardRef.current && !isSelected) {
+      setCardHeight(cardRef.current.offsetHeight);
+    }
+  }, [isSelected]);
+
+  // When selected, render a ghost placeholder to prevent grid layout shift
+  if (isSelected) {
+    return (
+      <div
+        className="rounded-xl"
+        style={{
+          height: cardHeight || "auto",
+          background: "rgba(21, 29, 25, 0.2)",
+          border: "1px dashed rgba(16, 185, 129, 0.06)",
+        }}
+      />
+    );
+  }
 
   return (
     <motion.div
       ref={cardRef}
-      layout
-      className={`group relative rounded-xl p-6 transition-all ${
+      layoutId={reduced ? undefined : `project-card-${index}`}
+      layout={!reduced}
+      className={`group relative rounded-xl p-6 transition-colors ${
         dimmed ? "pointer-events-none opacity-30" : "cursor-pointer opacity-100"
       }`}
       style={{
@@ -63,11 +91,15 @@ export default function ProjectCard({
         WebkitBackdropFilter: "blur(12px)",
         border: "1px solid rgba(16, 185, 129, 0.08)",
         boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
-        transitionDuration: "var(--duration-normal)",
         overflow: "hidden",
       }}
+      transition={
+        reduced
+          ? { duration: 0 }
+          : { type: "spring", stiffness: 300, damping: 30 }
+      }
       whileHover={
-        !dimmed
+        !dimmed && !reduced
           ? {
               y: -6,
               borderColor: "rgba(16, 185, 129, 0.25)",
@@ -127,7 +159,6 @@ export default function ProjectCard({
             {project.context}
           </span>
 
-          {/* GitHub and Demo links */}
           <div className="flex items-center gap-2">
             {project.github && (
               <motion.a
@@ -185,7 +216,6 @@ export default function ProjectCard({
           ))}
         </div>
 
-        {/* Case study indicator */}
         {project.caseStudy && (
           <motion.div
             className="mt-4 inline-flex items-center gap-2 font-mono text-xs text-accent"

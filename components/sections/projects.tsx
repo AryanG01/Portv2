@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { AnimatePresence, LayoutGroup } from "motion/react";
 import ProjectCard from "@/components/project-card";
 import ProjectDetailModal from "@/components/project-detail-modal";
 import profile from "@/data/profile.json";
@@ -24,12 +25,14 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
   const selectedProject = selectedProjectIndex !== null ? profile.projects[selectedProjectIndex] : null;
 
   return (
-    <>
+    <LayoutGroup>
       <div className="grid gap-5 grid-cols-1 xl:grid-cols-2">
         {profile.projects.map((project, i) => (
           <ProjectCard
             key={project.name}
             project={project}
+            index={i}
+            isSelected={selectedProjectIndex === i}
             onSelect={() => setSelectedProjectIndex(i)}
             dimmed={!!activeSkill && !isMatch(project.tags)}
           />
@@ -47,11 +50,15 @@ export default function Projects({ activeSkill }: ProjectsSectionProps) {
         </p>
       )}
 
-      <ProjectDetailModal
-        project={selectedProject}
-        isOpen={selectedProjectIndex !== null}
-        onClose={() => setSelectedProjectIndex(null)}
-      />
-    </>
+      <AnimatePresence>
+        {selectedProject && selectedProjectIndex !== null && (
+          <ProjectDetailModal
+            project={selectedProject}
+            index={selectedProjectIndex}
+            onClose={() => setSelectedProjectIndex(null)}
+          />
+        )}
+      </AnimatePresence>
+    </LayoutGroup>
   );
 }

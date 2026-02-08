@@ -22,7 +22,7 @@ export default function About() {
   return (
     <div className="space-y-10">
       {/* Bio text */}
-      <div className="max-w-3xl space-y-5 font-body text-base leading-relaxed text-muted md:text-lg">
+      <div className="space-y-5 font-body text-base leading-relaxed text-muted md:text-lg">
         <p>
           I&rsquo;m pursuing Computer Science at NUS with dual specializations in{" "}
           <span className="text-foreground">AI/ML</span> and{" "}

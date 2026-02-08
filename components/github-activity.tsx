@@ -94,7 +94,7 @@ export default function GitHubActivity() {
   if (error) return null;
 
   return (
-    <section className="py-12 md:py-16">
+    <section className="pt-2 pb-12 md:pt-4 md:pb-16">
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <motion.div
           className="rounded-xl p-6 md:p-8"

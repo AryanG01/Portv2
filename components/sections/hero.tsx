@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { FaDownload } from "react-icons/fa";
 import MagneticButton from "@/components/magnetic-button";
 import { useToast } from "@/components/toast";
-import profile from "@/data/profile.json";
+import type { ProfileData } from "@/lib/profile";
 
 const PARTICLES = [
   { size: 4, left: "8%", top: "15%", duration: "6s", delay: "0s" },
@@ -63,7 +63,7 @@ function AnimatedText({
   );
 }
 
-function LiveTime() {
+function LiveTime({ location }: { location: string }) {
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -90,7 +90,7 @@ function LiveTime() {
     >
       <span className="h-2 w-2 rounded-full bg-accent" style={{ animation: "glow-pulse 2s ease-in-out infinite", boxShadow: "0 0 8px rgba(16, 185, 129, 0.8)" }} />
       <span className="font-mono text-sm text-accent">
-        {profile.location} &middot; {time}
+        {location} &middot; {time}
       </span>
     </motion.div>
   );
@@ -149,7 +149,7 @@ function ScrollChevron() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ profile }: { profile: ProfileData }) {
   const [imageError, setImageError] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
   const { toast } = useToast();
@@ -280,7 +280,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
             >
-              <LiveTime />
+              <LiveTime location={profile.location} />
             </motion.div>
 
             {/* Name — animated character reveal with 3D effect */}

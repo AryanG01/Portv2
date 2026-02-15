@@ -4,13 +4,14 @@ import { useState, useCallback } from "react";
 import { AnimatePresence, LayoutGroup } from "motion/react";
 import ProjectCard from "@/components/project-card";
 import ProjectDetailModal from "@/components/project-detail-modal";
-import profile from "@/data/profile.json";
+import type { ProfileData } from "@/lib/profile";
 
 interface ProjectsSectionProps {
+  profile: ProfileData;
   activeSkill: string | null;
 }
 
-export default function Projects({ activeSkill }: ProjectsSectionProps) {
+export default function Projects({ profile, activeSkill }: ProjectsSectionProps) {
   const [selectedProjectIndex, setSelectedProjectIndex] = useState<number | null>(null);
 
   const isMatch = useCallback(

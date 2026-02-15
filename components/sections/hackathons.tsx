@@ -1,7 +1,7 @@
 "use client";
 
 import { useReveal } from "@/hooks/use-reveal";
-import profile from "@/data/profile.json";
+import type { ProfileData } from "@/lib/profile";
 
 function isRanking(result: string): boolean {
   return /top \d+/i.test(result) || /most impressive/i.test(result);
@@ -20,7 +20,7 @@ function formatResult(result: string) {
   );
 }
 
-export default function Hackathons() {
+export default function Hackathons({ profile }: { profile: ProfileData }) {
   const { ref, visible } = useReveal(0.2);
 
   return (

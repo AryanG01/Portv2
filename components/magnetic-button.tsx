@@ -97,6 +97,7 @@ export default function MagneticButton({
         href={href}
         {...(download && href ? { download: true } : {})}
         onClick={(e) => {
+          if (download) return;
           if (href?.startsWith("#")) {
             e.preventDefault();
             document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });

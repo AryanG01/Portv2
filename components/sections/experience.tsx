@@ -2,9 +2,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import ExperienceCard from "@/components/experience-card";
-import profile from "@/data/profile.json";
+import type { ProfileData } from "@/lib/profile";
 
-export default function Experience() {
+export default function Experience({ profile }: { profile: ProfileData }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<SVGLineElement>(null);

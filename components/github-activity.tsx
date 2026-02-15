@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { FaGithub, FaStar, FaCodeBranch, FaCode } from "react-icons/fa";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import profile from "@/data/profile.json";
+import type { ProfileData } from "@/lib/profile";
 
 interface GitHubStats {
   publicRepos: number;
@@ -32,7 +32,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
   Shell: "#89e051",
 };
 
-export default function GitHubActivity() {
+export default function GitHubActivity({ profile }: { profile: ProfileData }) {
   const [stats, setStats] = useState<GitHubStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

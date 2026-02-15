@@ -2,15 +2,18 @@
 
 import { motion } from "motion/react";
 import SkillChip from "@/components/skill-chip";
-import profile from "@/data/profile.json";
+import type { ProfileData } from "@/lib/profile";
 
-const CATEGORIES: { key: keyof typeof profile.skills; label: string }[] = [
-  { key: "languages", label: "Languages" },
-  { key: "frameworks", label: "Frameworks" },
-  { key: "data", label: "Data" },
-  { key: "cloud_and_tools", label: "Cloud & Tools" },
-  { key: "methods", label: "Methods" },
-];
+const CATEGORY_KEYS = ["languages", "frameworks", "data", "cloud_and_tools", "methods"] as const;
+type CategoryKey = (typeof CATEGORY_KEYS)[number];
+
+const CATEGORY_LABELS: Record<CategoryKey, string> = {
+  languages: "Languages",
+  frameworks: "Frameworks",
+  data: "Data",
+  cloud_and_tools: "Cloud & Tools",
+  methods: "Methods",
+};
 
 const PROFICIENCY_LEVELS = [
   { key: "expert", label: "Expert", color: "#10b981", glow: "rgba(16, 185, 129, 0.4)" },
@@ -19,14 +22,14 @@ const PROFICIENCY_LEVELS = [
 ] as const;
 
 interface SkillsSectionProps {
+  profile: ProfileData;
   activeSkill: string | null;
   onSkillToggle: (skill: string) => void;
 }
 
-type ProficiencyKey = keyof typeof profile.skillProficiency;
+type ProficiencyKey = "expert" | "proficient" | "familiar";
 
-function getSkillProficiency(skill: string): ProficiencyKey | null {
-  const proficiency = profile.skillProficiency;
+function getSkillProficiency(skill: string, proficiency: ProfileData["skillProficiency"]): ProficiencyKey | null {
   if (proficiency.expert.includes(skill)) return "expert";
   if (proficiency.proficient.includes(skill)) return "proficient";
   if (proficiency.familiar.includes(skill)) return "familiar";
@@ -38,7 +41,7 @@ function getProficiencyStyle(level: ProficiencyKey | null) {
   return found || { color: "#10b981", glow: "rgba(16, 185, 129, 0.2)" };
 }
 
-export default function Skills({ activeSkill, onSkillToggle }: SkillsSectionProps) {
+export default function Skills({ profile, activeSkill, onSkillToggle }: SkillsSectionProps) {
   return (
     <div className="space-y-8">
       {/* Proficiency Legend */}
@@ -61,14 +64,14 @@ export default function Skills({ activeSkill, onSkillToggle }: SkillsSectionProp
       </div>
 
       {/* Skill Categories */}
-      {CATEGORIES.map(({ key, label }) => (
+      {CATEGORY_KEYS.map((key) => (
         <div key={key}>
           <span className="mb-3 block font-mono text-xs uppercase tracking-wider text-muted">
-            {label}
+            {CATEGORY_LABELS[key]}
           </span>
           <div className="flex flex-wrap gap-2">
             {profile.skills[key].map((skill) => {
-              const proficiency = getSkillProficiency(skill);
+              const proficiency = getSkillProficiency(skill, profile.skillProficiency);
               const style = getProficiencyStyle(proficiency);
 
               return (

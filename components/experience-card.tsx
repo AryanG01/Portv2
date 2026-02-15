@@ -64,14 +64,7 @@ export default function ExperienceCard({
                 "inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 40px rgba(16, 185, 129, 0.12), 0 0 30px rgba(16, 185, 129, 0.08)",
             }
       }
-      // Subtle scale pulse on expand
-      animate={
-        reduced
-          ? {}
-          : isExpanded
-            ? { scale: [1, 1.01, 1] }
-            : { scale: 1 }
-      }
+      animate={reduced ? {} : { scale: 1 }}
       transition={springTransition}
     >
       {/* Hover gradient overlay */}

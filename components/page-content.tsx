@@ -16,6 +16,7 @@ import BackgroundEffects from "@/components/background-effects";
 import SmoothScrollProvider from "@/components/smooth-scroll-provider";
 import ScrollProgress from "@/components/scroll-progress";
 import CustomCursor from "@/components/custom-cursor";
+import type { ProfileData } from "@/lib/profile";
 
 function Divider() {
   return (
@@ -25,7 +26,11 @@ function Divider() {
   );
 }
 
-export default function PageContent() {
+interface PageContentProps {
+  profile: ProfileData;
+}
+
+export default function PageContent({ profile }: PageContentProps) {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
 
   const handleSkillToggle = useCallback((skill: string) => {
@@ -40,7 +45,7 @@ export default function PageContent() {
       <KeyboardNav />
       <Nav />
       <main>
-        <Hero />
+        <Hero profile={profile} />
 
         <Divider />
 
@@ -48,18 +53,18 @@ export default function PageContent() {
           <About />
         </SectionWrapper>
 
-        <GitHubActivity />
+        <GitHubActivity profile={profile} />
 
         <Divider />
 
         <SectionWrapper id="experience" title="Experience">
-          <Experience />
+          <Experience profile={profile} />
         </SectionWrapper>
 
         <Divider />
 
         <SectionWrapper id="awards" title="Hackathons & Awards">
-          <Hackathons />
+          <Hackathons profile={profile} />
         </SectionWrapper>
 
         <Divider />
@@ -67,12 +72,12 @@ export default function PageContent() {
         <SectionWrapper id="projects" title="Projects & Skills">
           <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
             <div>
-              <Projects activeSkill={activeSkill} />
+              <Projects profile={profile} activeSkill={activeSkill} />
             </div>
             <div>
               <div className="lg:sticky lg:top-24">
                 <h3 className="mb-6 font-heading text-2xl font-bold gradient-text">Skills</h3>
-                <Skills activeSkill={activeSkill} onSkillToggle={handleSkillToggle} />
+                <Skills profile={profile} activeSkill={activeSkill} onSkillToggle={handleSkillToggle} />
               </div>
             </div>
           </div>
@@ -81,7 +86,7 @@ export default function PageContent() {
         <Divider />
 
         <SectionWrapper id="contact" title="Get in Touch">
-          <Contact />
+          <Contact profile={profile} />
         </SectionWrapper>
       </main>
     </SmoothScrollProvider>

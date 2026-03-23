@@ -126,13 +126,6 @@ export default function PageContent({ profile }: PageContentProps) {
 
         <Divider />
 
-        {/* Testimonials */}
-        <SectionWrapper id="testimonials" title="Testimonials">
-          <Testimonials />
-        </SectionWrapper>
-
-        <Divider />
-
         {/* Contact */}
         <SectionWrapper id="contact" title="Get in Touch">
           <Contact profile={profile} />

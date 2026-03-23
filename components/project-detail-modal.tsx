@@ -95,9 +95,7 @@ export default function ProjectDetailModal({
         layoutId={reduced ? undefined : `project-card-${index}`}
         className="relative z-10 max-h-[90vh] w-full max-w-4xl rounded-2xl"
         style={{
-          background: "rgba(8, 12, 10, 0.92)",
-          backdropFilter: "blur(24px) saturate(1.4)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+          background: "rgba(8, 12, 10, 0.96)",
           border: "1px solid rgba(16, 185, 129, 0.15)",
           boxShadow: `0 0 60px ${colors.glow}`,
           overflowY: "auto",

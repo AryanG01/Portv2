@@ -337,6 +337,24 @@ export default function Hero({ profile }: { profile: ProfileData }) {
                 I build systems that work under pressure&mdash;tested, observable,
                 and simple enough for the next person to change confidently.
               </p>
+
+              {/* Open to work badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 1.4, ease: "easeOut" }}
+                className="inline-flex items-center gap-2 rounded-full px-4 py-1.5"
+                style={{
+                  background: "rgba(16, 185, 129, 0.08)",
+                  border: "1px solid rgba(16, 185, 129, 0.2)",
+                }}
+              >
+                <span
+                  className="h-2 w-2 rounded-full bg-accent"
+                  style={{ animation: "glow-pulse 2s ease-in-out infinite", boxShadow: "0 0 6px rgba(16, 185, 129, 0.8)" }}
+                />
+                <span className="font-mono text-xs text-accent">Open to opportunities</span>
+              </motion.div>
             </motion.div>
 
             {/* CTAs */}

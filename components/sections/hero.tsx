@@ -6,6 +6,8 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { FaDownload } from "react-icons/fa";
 import MagneticButton from "@/components/magnetic-button";
 import { useToast } from "@/components/toast";
+import { useTypewriter } from "@/hooks/use-typewriter";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { ProfileData } from "@/lib/profile";
 
 const PARTICLES = [
@@ -153,6 +155,8 @@ export default function Hero({ profile }: { profile: ProfileData }) {
   const [imageError, setImageError] = useState(false);
   const containerRef = useRef<HTMLElement>(null);
   const { toast } = useToast();
+  const reduced = useReducedMotion();
+  const role = useTypewriter(75, 38, 2800, !reduced);
   const firstName = profile.name.split(" ")[0];
   const lastName = profile.name.split(" ")[1];
 
@@ -313,7 +317,11 @@ export default function Hero({ profile }: { profile: ProfileData }) {
             >
               <p className="font-body text-lg text-foreground-secondary sm:text-xl md:text-2xl">
                 <span className="relative inline-block">
-                  Software Engineer
+                  {role}
+                  <span
+                    className="ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[0.1em] rounded-sm bg-accent align-middle"
+                    style={{ animation: "glow-pulse 1s ease-in-out infinite" }}
+                  />
                   <motion.span
                     className="absolute bottom-0 left-0 h-[3px] w-full origin-left"
                     style={{ background: "var(--gradient-emerald-cyan)" }}

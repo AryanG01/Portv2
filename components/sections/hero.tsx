@@ -353,7 +353,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
                   className="h-2 w-2 rounded-full bg-accent"
                   style={{ animation: "glow-pulse 2s ease-in-out infinite", boxShadow: "0 0 6px rgba(16, 185, 129, 0.8)" }}
                 />
-                <span className="font-mono text-xs text-accent">Open to opportunities</span>
+                <span className="font-mono text-xs text-accent">Open to roles · Jun 2026</span>
               </motion.div>
             </motion.div>
 

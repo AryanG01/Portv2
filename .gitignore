@@ -40,3 +40,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code — personal settings (permissions, overrides)
+.claude/settings.local.json
+
+# brainstorming companion
+.superpowers/

@@ -10,6 +10,7 @@ import Hackathons from "@/components/sections/hackathons";
 import Skills from "@/components/sections/skills";
 import Contact from "@/components/sections/contact";
 import Leadership from "@/components/sections/leadership";
+import Testimonials from "@/components/sections/testimonials";
 import NowSection from "@/components/sections/now";
 import KeyboardNav from "@/components/keyboard-nav";
 import SectionWrapper from "@/components/section-wrapper";
@@ -121,6 +122,13 @@ export default function PageContent({ profile }: PageContentProps) {
         {/* Leadership & Extracurricular */}
         <SectionWrapper id="leadership" title="Leadership & Community">
           <Leadership />
+        </SectionWrapper>
+
+        <Divider />
+
+        {/* Testimonials */}
+        <SectionWrapper id="testimonials" title="Testimonials">
+          <Testimonials />
         </SectionWrapper>
 
         <Divider />

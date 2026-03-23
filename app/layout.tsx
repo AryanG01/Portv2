@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { ToastProvider } from "@/components/toast";
 import ThemeSwitcher from "@/components/theme-switcher";
 import CommandPalette from "@/components/command-palette";
@@ -71,15 +72,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
-    ],
-    apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-    ],
-  },
 };
 
 export default function RootLayout({
@@ -108,6 +100,7 @@ export default function RootLayout({
           {children}
           <ThemeSwitcher />
           <CommandPalette />
+          <Analytics />
         </ToastProvider>
       </body>
     </html>

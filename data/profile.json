@@ -76,7 +76,7 @@
         "Real-time progress streaming (FastAPI + WebSockets) conceptually fits a live demo"
       ],
       "tags": ["Python", "FastAPI", "React", "TypeScript"],
-      "github": "https://github.com/AryanG01/gui-murphy",
+      "github": "https://github.com/AryanG01/techjam-2025-final",
       "demo": null,
       "caseStudy": {
         "problem": "Traditional QA automation tools rely on pixel-perfect comparisons or brittle selectors that break with minor UI changes. Modern apps with dynamic content need semantic understanding of what the UI is doing, not just how it looks.",
@@ -188,7 +188,7 @@
         "Hours tracking and certificate generation"
       ],
       "tags": ["JavaScript", "HTML", "CSS"],
-      "github": "https://github.com/AryanG01/do-it-volunteering",
+      "github": "https://github.com/AryanG01/Do-It-Volunteering",
       "demo": null,
       "caseStudy": {
         "problem": "Non-profits struggle to coordinate volunteers efficiently. Volunteers find it hard to discover opportunities, and organizations waste time on manual hour tracking and certificate generation.",
@@ -215,7 +215,7 @@
         "GCP integration for scalable compute and storage"
       ],
       "tags": ["TypeScript", "Redis", "GCP", "Docker"],
-      "github": "https://github.com/AryanG01/agentformer",
+      "github": "https://github.com/AryanG01/AIT_REDIS_CLOUDFLARE",
       "demo": null,
       "caseStudy": {
         "problem": "Single-agent AI systems hit capability ceilings on complex tasks. Multi-agent systems exist but suffer from coordination overhead, message passing bottlenecks, and difficulty in maintaining shared state.",

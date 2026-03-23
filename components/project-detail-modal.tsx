@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
+import { createPortal } from "react-dom";
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaLightbulb, FaTools, FaChartLine, FaCode } from "react-icons/fa";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
@@ -50,6 +51,9 @@ export default function ProjectDetailModal({
   const modalRef = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const colors = CONTEXT_COLORS[project.context] || DEFAULT_COLORS;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const handleKeyDown = useCallback((e: KeyboardEvent) => {
     if (e.key === "Escape") onClose();
@@ -74,7 +78,9 @@ export default function ProjectDetailModal({
   // Delayed content fade (waits for morph to begin)
   const contentDelay = reduced ? 0 : 0.15;
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
       style={{
@@ -380,6 +386,7 @@ export default function ProjectDetailModal({
           </motion.div>
         </motion.div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }

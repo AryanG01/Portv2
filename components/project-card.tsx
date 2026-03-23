@@ -1,9 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useTilt } from "@/hooks/use-tilt";
 
 interface ProjectCaseStudy {
   problem?: string;
@@ -30,18 +31,54 @@ interface ProjectCardProps {
   isSelected: boolean;
   onSelect: () => void;
   dimmed: boolean;
+  featured?: boolean;
 }
 
-const CONTEXT_COLORS: Record<string, { gradient: string; glow: string }> = {
-  "TikTok TechJam 2025": { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", glow: "rgba(16, 185, 129, 0.3)" },
-  "Cursor Hackathon": { gradient: "linear-gradient(135deg, #8b5cf6, #06b6d4)", glow: "rgba(139, 92, 246, 0.3)" },
-  "Personal Project": { gradient: "linear-gradient(135deg, #f59e0b, #ef4444)", glow: "rgba(245, 158, 11, 0.3)" },
-  "HackRoll 2024": { gradient: "linear-gradient(135deg, #06b6d4, #10b981)", glow: "rgba(6, 182, 212, 0.3)" },
-  "Community Project": { gradient: "linear-gradient(135deg, #10b981, #22c55e)", glow: "rgba(16, 185, 129, 0.3)" },
-  "AIT x Redis x Cloudflare Mini-Hack": { gradient: "linear-gradient(135deg, #ef4444, #f59e0b)", glow: "rgba(239, 68, 68, 0.3)" },
+const CONTEXT_COLORS: Record<string, { accent: string; glow: string; gradient: string }> = {
+  "TikTok TechJam 2025": {
+    accent: "#10b981",
+    glow: "rgba(16,185,129,0.3)",
+    gradient: "linear-gradient(135deg, rgba(16,185,129,0.15), rgba(6,182,212,0.08))",
+  },
+  "Cursor Hackathon": {
+    accent: "#a78bfa",
+    glow: "rgba(167,139,250,0.3)",
+    gradient: "linear-gradient(135deg, rgba(167,139,250,0.15), rgba(6,182,212,0.08))",
+  },
+  "Personal Project": {
+    accent: "#f59e0b",
+    glow: "rgba(245,158,11,0.3)",
+    gradient: "linear-gradient(135deg, rgba(245,158,11,0.15), rgba(239,68,68,0.08))",
+  },
+  "HackRoll 2024": {
+    accent: "#06b6d4",
+    glow: "rgba(6,182,212,0.3)",
+    gradient: "linear-gradient(135deg, rgba(6,182,212,0.15), rgba(16,185,129,0.08))",
+  },
+  "Community Project": {
+    accent: "#22c55e",
+    glow: "rgba(34,197,94,0.3)",
+    gradient: "linear-gradient(135deg, rgba(34,197,94,0.15), rgba(16,185,129,0.08))",
+  },
+  "AIT x Redis x Cloudflare Mini-Hack": {
+    accent: "#f97316",
+    glow: "rgba(249,115,22,0.3)",
+    gradient: "linear-gradient(135deg, rgba(249,115,22,0.15), rgba(245,158,11,0.08))",
+  },
 };
 
-const DEFAULT_COLORS = { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", glow: "rgba(16, 185, 129, 0.3)" };
+const DEFAULT_C = {
+  accent: "#10b981",
+  glow: "rgba(16,185,129,0.3)",
+  gradient: "linear-gradient(135deg, rgba(16,185,129,0.15), rgba(6,182,212,0.08))",
+};
+
+// Key metric pulled from case study for featured cards
+const FEATURED_METRICS: Record<string, string> = {
+  "GUI Murphy": "Top 12 / 2300+",
+  "Agentformer": "Top 5 · Singapore",
+  "AlphaForge": "<100ms latency",
+};
 
 export default function ProjectCard({
   project,
@@ -49,70 +86,87 @@ export default function ProjectCard({
   isSelected,
   onSelect,
   dimmed,
+  featured = false,
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [cardHeight, setCardHeight] = useState<number>(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const reduced = useReducedMotion();
-  const colors = CONTEXT_COLORS[project.context] || DEFAULT_COLORS;
+  const c = CONTEXT_COLORS[project.context] ?? DEFAULT_C;
 
-  // Capture card height for ghost placeholder
+  const { ref: tiltRef, handlers: tiltHandlers } = useTilt(6);
+
+  // Compose cardRef (height measurement) + tiltRef (DOM style mutations)
+  const composedRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      (cardRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      (tiltRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
   useEffect(() => {
     if (cardRef.current && !isSelected) {
       setCardHeight(cardRef.current.offsetHeight);
     }
   }, [isSelected]);
 
-  // When selected, render a ghost placeholder to prevent grid layout shift
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduced || dimmed) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    setMousePos({
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    });
+  };
+
   if (isSelected) {
     return (
       <div
-        className="rounded-xl"
+        className="rounded-2xl"
         style={{
-          height: cardHeight || "auto",
-          background: "rgba(21, 29, 25, 0.2)",
-          border: "1px dashed rgba(16, 185, 129, 0.06)",
+          height: cardHeight || 220,
+          background: "rgba(17,25,22,0.2)",
+          border: "1px dashed rgba(16,185,129,0.08)",
         }}
       />
     );
   }
 
+  const minHeight = featured ? 280 : 200;
+
   return (
     <motion.div
-      ref={cardRef}
+      ref={composedRef}
       layoutId={reduced ? undefined : `project-card-${index}`}
       layout={!reduced}
-      className={`group relative rounded-xl p-6 transition-colors ${
-        dimmed ? "pointer-events-none opacity-30" : "cursor-pointer opacity-100"
+      className={`group relative overflow-hidden rounded-2xl transition-all duration-300 ${
+        dimmed ? "pointer-events-none opacity-25" : "cursor-pointer"
       }`}
       style={{
-        background: "rgba(21, 29, 25, 0.5)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        border: "1px solid rgba(16, 185, 129, 0.08)",
-        boxShadow: "inset 0 1px 0 rgba(255, 255, 255, 0.03)",
-        overflow: "hidden",
+        background: "rgba(17,25,22,0.65)",
+        backdropFilter: "blur(20px)",
+        border: `1px solid rgba(16,185,129,0.09)`,
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+        minHeight,
+        willChange: "transform",
       }}
-      transition={
-        reduced
-          ? { duration: 0 }
-          : { type: "spring", stiffness: 300, damping: 30 }
-      }
       whileHover={
         !dimmed && !reduced
           ? {
               y: -6,
-              borderColor: "rgba(16, 185, 129, 0.25)",
-              boxShadow:
-                `inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 12px 40px ${colors.glow}, 0 0 30px rgba(16, 185, 129, 0.08)`,
+              borderColor: `${c.accent}35`,
+              boxShadow: `inset 0 1px 0 rgba(255,255,255,0.04), 0 20px 60px ${c.glow}, 0 0 40px ${c.glow.replace("0.3", "0.08")}`,
             }
           : {}
       }
-      onClick={() => {
-        if (!dimmed) onSelect();
-      }}
+      transition={reduced ? { duration: 0 } : { type: "spring", stiffness: 300, damping: 28 }}
+      onClick={() => { if (!dimmed) onSelect(); }}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={(e) => { setIsHovered(false); tiltHandlers.onMouseLeave(); }}
+      onMouseMove={(e) => { handleMouseMove(e); tiltHandlers.onMouseMove(e); }}
       role="button"
       tabIndex={dimmed ? -1 : 0}
       aria-haspopup="dialog"
@@ -123,37 +177,39 @@ export default function ProjectCard({
         }
       }}
     >
-      {/* Hover reveal gradient overlay */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        initial={{ clipPath: "inset(100% 0 0 0)" }}
-        animate={{ clipPath: isHovered && !dimmed ? "inset(60% 0 0 0)" : "inset(100% 0 0 0)" }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{
-          background: colors.gradient,
-          opacity: 0.1,
-        }}
+      {/* Mouse-tracked radial glow */}
+      {!reduced && (
+        <div
+          className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+          style={{
+            background: `radial-gradient(300px circle at ${mousePos.x}% ${mousePos.y}%, ${c.glow.replace("0.3", "0.12")}, transparent 70%)`,
+            opacity: isHovered ? 1 : 0,
+          }}
+        />
+      )}
+
+      {/* Context gradient sweep from top */}
+      <div
+        className="absolute inset-x-0 top-0 h-48 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{ background: c.gradient }}
       />
 
-      {/* Shine effect on hover */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        initial={{ x: "-100%", opacity: 0 }}
-        animate={{ x: isHovered && !dimmed ? "200%" : "-100%", opacity: isHovered ? 0.15 : 0 }}
-        transition={{ duration: 0.7, ease: "easeInOut" }}
-        style={{
-          background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-          width: "50%",
-        }}
+      {/* Top colored border accent */}
+      <div
+        className="absolute inset-x-0 top-0 h-[2px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: `linear-gradient(to right, ${c.accent}, transparent)` }}
       />
 
-      <div className="relative z-10">
+      {/* Content */}
+      <div className="relative z-10 flex h-full flex-col p-6">
+        {/* Header row */}
         <div className="flex items-start justify-between gap-3">
           <span
-            className="inline-block rounded-md px-2.5 py-1 font-mono text-xs text-accent"
+            className="rounded-full px-3 py-1 font-mono text-[11px] font-medium"
             style={{
-              background: "linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 182, 212, 0.1))",
-              border: "1px solid rgba(16, 185, 129, 0.1)",
+              background: `${c.accent}18`,
+              color: c.accent,
+              border: `1px solid ${c.accent}28`,
             }}
           >
             {project.context}
@@ -167,12 +223,11 @@ export default function ProjectCard({
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 className="text-muted transition-colors hover:text-accent"
-                whileHover={{ scale: 1.2, rotate: 360 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ duration: 0.3 }}
+                whileHover={reduced ? {} : { scale: 1.2 }}
+                whileTap={reduced ? {} : { scale: 0.9 }}
                 aria-label={`View ${project.name} on GitHub`}
               >
-                <FaGithub className="text-lg" />
+                <FaGithub className="text-base" />
               </motion.a>
             )}
             {project.demo && (
@@ -182,17 +237,41 @@ export default function ProjectCard({
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 className="text-muted transition-colors hover:text-accent"
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={reduced ? {} : { scale: 1.2 }}
                 aria-label={`View ${project.name} live demo`}
               >
-                <FaExternalLinkAlt className="text-sm" />
+                <FaExternalLinkAlt className="text-xs" />
               </motion.a>
             )}
           </div>
         </div>
 
-        <h3 className="mt-3 font-heading text-xl font-semibold text-foreground md:text-2xl">
+        {/* Featured metric badge */}
+        {featured && FEATURED_METRICS[project.name] && (
+          <div className="mt-4">
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-sm font-bold"
+              style={{
+                background: `${c.accent}15`,
+                color: c.accent,
+                border: `1px solid ${c.accent}30`,
+                boxShadow: `0 0 20px ${c.glow.replace("0.3", "0.15")}`,
+              }}
+            >
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ background: c.accent, boxShadow: `0 0 6px ${c.accent}` }}
+              />
+              {FEATURED_METRICS[project.name]}
+            </span>
+          </div>
+        )}
+
+        {/* Title */}
+        <h3
+          className="mt-4 font-heading font-bold text-foreground transition-colors duration-200 group-hover:text-foreground"
+          style={{ fontSize: featured ? "1.6rem" : "1.2rem", lineHeight: 1.2 }}
+        >
           {project.name}
         </h3>
 
@@ -200,43 +279,41 @@ export default function ProjectCard({
           {project.summary}
         </p>
 
-        <div className="mt-4 flex flex-wrap gap-2">
+        {/* Tags */}
+        <div className="mt-4 flex flex-wrap gap-1.5">
           {project.tags.map((tag) => (
-            <motion.span
+            <span
               key={tag}
-              className="rounded-md px-2.5 py-1 font-mono text-xs text-muted transition-colors group-hover:text-foreground-secondary"
+              className="rounded-md px-2 py-0.5 font-mono text-[11px] text-muted transition-colors duration-200 group-hover:text-foreground-secondary"
               style={{
-                background: "rgba(21, 29, 25, 0.8)",
-                border: "1px solid rgba(16, 185, 129, 0.06)",
+                background: "rgba(17,25,22,0.8)",
+                border: "1px solid rgba(16,185,129,0.07)",
               }}
-              whileHover={{ scale: 1.1, borderColor: "rgba(16, 185, 129, 0.3)" }}
             >
               {tag}
-            </motion.span>
+            </span>
           ))}
         </div>
 
+        {/* Case study CTA — pushed to bottom */}
         {project.caseStudy && (
-          <motion.div
-            className="mt-4 inline-flex items-center gap-2 font-mono text-xs text-accent"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" style={{ boxShadow: "0 0 6px rgba(16, 185, 129, 0.6)" }} />
-            Click for case study
-          </motion.div>
+          <div className="mt-auto pt-4">
+            <span
+              className="inline-flex items-center gap-1.5 font-mono text-xs transition-all duration-200"
+              style={{ color: c.accent }}
+            >
+              <span
+                className="h-1.5 w-1.5 rounded-full"
+                style={{ background: c.accent, boxShadow: `0 0 6px ${c.accent}` }}
+              />
+              Case study
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+          </div>
         )}
       </div>
-
-      {/* Corner accent */}
-      <div
-        className="absolute -bottom-10 -right-10 h-24 w-24 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background: colors.gradient,
-          filter: "blur(30px)",
-        }}
-      />
     </motion.div>
   );
 }

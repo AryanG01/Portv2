@@ -56,35 +56,6 @@
         "Championed TDD culture: wrote 300+ unit tests, raised coverage to ~95%, prevented multiple production regressions",
         "Built AWS monitoring/optimization scripts + CI/CD improvements: reduced deployment time and compute costs"
       ]
-    },
-    {
-      "company": "Google Developer Student Clubs NUS",
-      "role": "Head of Operations",
-      "dates": "Aug 2024 – Aug 2025",
-      "highlights": [
-        "Led booth setup at Computing Fair 2024, driving 50% increase in sign-ups",
-        "Spearheaded Hack for Good 2025, coordinating tech, marketing, finance, and partnerships",
-        "Developed proposals and event roadmaps working cross-functionally with branding and finance teams"
-      ]
-    },
-    {
-      "company": "National University of Singapore",
-      "role": "Teaching Assistant (CS1101S)",
-      "dates": "Aug 2023 – Dec 2023",
-      "highlights": [
-        "Mentored 10+ students in functional programming with Source language (JavaScript subset)",
-        "Guided project development and conducted weekly office hours: achieved 100% passing rate"
-      ]
-    },
-    {
-      "company": "Credence Singapore",
-      "role": "Financial Services Intern",
-      "dates": "Dec 2023",
-      "highlights": [
-        "Achieved 5 financial analysis certifications during intensive program",
-        "Developed strategic financial solutions for diverse client portfolios",
-        "Secured 1st place in client simulation challenge"
-      ]
     }
   ],
   "hackathons_and_awards": [

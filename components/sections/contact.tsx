@@ -82,16 +82,10 @@ export default function Contact({ profile }: { profile: ProfileData }) {
     <>
       {/* ── Headline ── */}
       <motion.div
-        className="mb-16 text-left"
+        className="mb-10 text-left"
         {...fadeUp}
         transition={{ ...springTransition, delay: 0 }}
       >
-        <p
-          className="font-mono text-xs uppercase tracking-[0.2em] mb-4"
-          style={{ color: "var(--accent)" }}
-        >
-          Get in touch
-        </p>
         <h2
           className="font-heading font-black leading-none tracking-tight"
           style={{ fontSize: "clamp(2.8rem, 7vw, 7rem)" }}
@@ -117,7 +111,7 @@ export default function Contact({ profile }: { profile: ProfileData }) {
         <motion.div
           {...fadeUp}
           transition={{ ...springTransition, delay: reduced ? 0 : 0.1 }}
-          className="flex flex-col gap-6 rounded-2xl p-8"
+          className="flex flex-col gap-5 rounded-2xl p-8"
           style={{
             background: "rgba(17, 25, 22, 0.6)",
             backdropFilter: "blur(20px)",
@@ -125,130 +119,137 @@ export default function Contact({ profile }: { profile: ProfileData }) {
             border: "1px solid rgba(16, 185, 129, 0.09)",
           }}
         >
-          <div>
-            <p className="mb-4 font-mono text-xs uppercase tracking-[0.15em] text-muted">
-              Direct
+          <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">
+            Direct
+          </p>
+
+          {/* Email block */}
+          <motion.a
+            href={`mailto:${email}`}
+            className="group flex items-center justify-between gap-3 rounded-xl px-4 py-3 transition-all"
+            style={{
+              background: "rgba(16, 185, 129, 0.04)",
+              border: "1px solid rgba(16, 185, 129, 0.1)",
+            }}
+            whileHover={
+              reduced
+                ? {}
+                : {
+                    boxShadow: "0 0 30px rgba(16,185,129,0.2)",
+                    borderColor: "rgba(16,185,129,0.3)",
+                  }
+            }
+            transition={reduced ? { duration: 0 } : { duration: 0.2 }}
+          >
+            <span
+              className="font-mono text-sm break-all"
+              style={{ color: "var(--accent)" }}
+            >
+              {email}
+            </span>
+            <button
+              type="button"
+              aria-label={copied ? "Copied" : "Copy email address"}
+              onClick={(e) => {
+                e.preventDefault();
+                handleCopyEmail();
+              }}
+              className="flex-shrink-0 rounded-lg p-2 transition-all"
+              style={{
+                color: copied ? "var(--accent)" : "var(--muted)",
+                background: "rgba(16,185,129,0.06)",
+                border: "1px solid rgba(16,185,129,0.1)",
+              }}
+            >
+              {copied ? <CheckIcon /> : <CopyIcon />}
+            </button>
+          </motion.a>
+
+          {/* Social links — with text labels */}
+          <div className="flex flex-col gap-3">
+            <p className="font-mono text-xs uppercase tracking-[0.15em] text-muted">
+              Connect
             </p>
-
-            {/* Email block */}
-            <motion.a
-              href={`mailto:${email}`}
-              className="group flex items-center justify-between gap-3 rounded-xl px-4 py-3 transition-all"
-              style={{
-                background: "rgba(16, 185, 129, 0.04)",
-                border: "1px solid rgba(16, 185, 129, 0.1)",
-              }}
-              whileHover={
-                reduced
-                  ? {}
-                  : {
-                      boxShadow: "0 0 30px rgba(16,185,129,0.2)",
-                      borderColor: "rgba(16,185,129,0.3)",
-                    }
-              }
-              transition={reduced ? { duration: 0 } : { duration: 0.2 }}
-            >
-              <span
-                className="font-mono text-sm break-all"
-                style={{ color: "var(--accent)" }}
-              >
-                {email}
-              </span>
-
-              {/* Copy button — stops propagation so link isn't followed */}
-              <button
-                type="button"
-                aria-label={copied ? "Copied" : "Copy email address"}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleCopyEmail();
-                }}
-                className="flex-shrink-0 rounded-lg p-2 transition-all"
+            <div className="flex flex-col gap-2">
+              <motion.a
+                href={profile.contact.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 transition-all"
                 style={{
-                  color: copied ? "var(--accent)" : "var(--muted)",
-                  background: "rgba(16,185,129,0.06)",
-                  border: "1px solid rgba(16,185,129,0.1)",
+                  background: "rgba(16,185,129,0.03)",
+                  border: "1px solid rgba(16,185,129,0.08)",
+                  color: "var(--muted)",
                 }}
+                whileHover={
+                  reduced
+                    ? {}
+                    : { borderColor: "rgba(16,185,129,0.25)", color: "var(--foreground)", x: 2 }
+                }
+                transition={reduced ? { duration: 0 } : { duration: 0.15 }}
               >
-                {copied ? <CheckIcon /> : <CopyIcon />}
-              </button>
-            </motion.a>
-          </div>
+                <GithubIcon />
+                <div>
+                  <p className="font-mono text-sm font-medium" style={{ color: "var(--foreground-secondary)" }}>
+                    GitHub
+                  </p>
+                  <p className="font-mono text-[10px]" style={{ color: "var(--muted)" }}>
+                    AryanG01
+                  </p>
+                </div>
+                <svg
+                  className="ml-auto"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </motion.a>
 
-          {/* OR divider */}
-          <div className="flex items-center gap-3">
-            <div
-              className="h-px flex-1"
-              style={{ background: "rgba(16,185,129,0.08)" }}
-            />
-            <span className="font-mono text-xs text-muted">or connect</span>
-            <div
-              className="h-px flex-1"
-              style={{ background: "rgba(16,185,129,0.08)" }}
-            />
-          </div>
-
-          {/* Social icon buttons */}
-          <div className="flex items-center gap-3">
-            <motion.a
-              href={profile.contact.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub profile"
-              className="flex items-center justify-center rounded-xl transition-all"
-              style={{
-                width: 48,
-                height: 48,
-                background: "rgba(16,185,129,0.04)",
-                border: "1px solid rgba(16,185,129,0.12)",
-                color: "var(--muted)",
-              }}
-              whileHover={
-                reduced
-                  ? {}
-                  : {
-                      y: -2,
-                      borderColor: "var(--accent)",
-                      color: "var(--foreground)",
-                      boxShadow: "0 4px 20px rgba(16,185,129,0.15)",
-                    }
-              }
-              transition={reduced ? { duration: 0 } : { duration: 0.2 }}
-            >
-              <GithubIcon />
-            </motion.a>
-
-            <motion.a
-              href={profile.contact.links.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn profile"
-              className="flex items-center justify-center rounded-xl transition-all"
-              style={{
-                width: 48,
-                height: 48,
-                background: "rgba(16,185,129,0.04)",
-                border: "1px solid rgba(16,185,129,0.12)",
-                color: "var(--muted)",
-              }}
-              whileHover={
-                reduced
-                  ? {}
-                  : {
-                      y: -2,
-                      borderColor: "var(--cyan)",
-                      color: "var(--foreground)",
-                      boxShadow: "0 4px 20px rgba(6,182,212,0.15)",
-                    }
-              }
-              transition={reduced ? { duration: 0 } : { duration: 0.2 }}
-            >
-              <LinkedInIcon />
-            </motion.a>
-
-            <div className="ml-1">
-              <p className="font-mono text-xs text-muted leading-tight">GitHub</p>
-              <p className="font-mono text-xs text-muted leading-tight">LinkedIn</p>
+              <motion.a
+                href={profile.contact.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 rounded-xl px-4 py-3 transition-all"
+                style={{
+                  background: "rgba(6,182,212,0.03)",
+                  border: "1px solid rgba(6,182,212,0.08)",
+                  color: "var(--muted)",
+                }}
+                whileHover={
+                  reduced
+                    ? {}
+                    : { borderColor: "rgba(6,182,212,0.25)", color: "var(--foreground)", x: 2 }
+                }
+                transition={reduced ? { duration: 0 } : { duration: 0.15 }}
+              >
+                <LinkedInIcon />
+                <div>
+                  <p className="font-mono text-sm font-medium" style={{ color: "var(--foreground-secondary)" }}>
+                    LinkedIn
+                  </p>
+                  <p className="font-mono text-[10px]" style={{ color: "var(--muted)" }}>
+                    Aryan Ganju
+                  </p>
+                </div>
+                <svg
+                  className="ml-auto"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden="true"
+                >
+                  <path d="M7 17L17 7M17 7H7M17 7v10" />
+                </svg>
+              </motion.a>
             </div>
           </div>
 
@@ -260,10 +261,7 @@ export default function Contact({ profile }: { profile: ProfileData }) {
               border: "1px solid rgba(16,185,129,0.1)",
             }}
           >
-            <span
-              className="relative flex h-2 w-2 flex-shrink-0"
-              aria-hidden="true"
-            >
+            <span className="relative flex h-2 w-2 flex-shrink-0" aria-hidden="true">
               <span
                 className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
                 style={{ background: "var(--accent)" }}
@@ -304,7 +302,7 @@ export default function Contact({ profile }: { profile: ProfileData }) {
         style={{ borderTop: "1px solid rgba(16, 185, 129, 0.06)" }}
       >
         <p className="font-mono text-xs text-muted order-2 sm:order-1">
-          &copy; {new Date().getFullYear()} {profile.name}. Built with Next.js &amp; Tailwind.
+          &copy; {new Date().getFullYear()} Aryan Ganju &mdash; designed &amp; built in Singapore.
         </p>
 
         <motion.button

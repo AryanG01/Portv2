@@ -5,8 +5,11 @@ import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import { FaDownload, FaGithub, FaLinkedin } from "react-icons/fa";
 import MagneticButton from "@/components/magnetic-button";
+import AnimatedCounter from "@/components/animated-counter";
 import { useToast } from "@/components/toast";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useScramble } from "@/hooks/use-scramble";
+import { useTypewriter } from "@/hooks/use-typewriter";
 import type { ProfileData } from "@/lib/profile";
 
 // ─── Canvas Particle System ───────────────────────────────────────────────────
@@ -14,8 +17,18 @@ import type { ProfileData } from "@/lib/profile";
 function ParticleCanvas({ reduced }: { reduced: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // Task 9: only render on desktop (≥1024px) to spare mobile CPU/battery
+  const [isDesktop, setIsDesktop] = useState(false);
+
   useEffect(() => {
-    if (reduced) return;
+    const check = () => setIsDesktop(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (reduced || !isDesktop) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -109,9 +122,9 @@ function ParticleCanvas({ reduced }: { reduced: boolean }) {
       cancelAnimationFrame(animId);
       ro.disconnect();
     };
-  }, [reduced]);
+  }, [reduced, isDesktop]);
 
-  if (reduced) return null;
+  if (reduced || !isDesktop) return null;
   return (
     <canvas
       ref={canvasRef}
@@ -214,6 +227,13 @@ export default function Hero({ profile }: { profile: ProfileData }) {
   const { toast } = useToast();
   const reduced = useReducedMotion();
 
+  // Task 5b: text scramble on name hover
+  const { text: aryanText, scramble: scrambleAryan } = useScramble("ARYAN");
+  const { text: ganjuText, scramble: scrambleGanju } = useScramble("GANJU");
+
+  // Task 7b: typewriter role cycle
+  const role = useTypewriter(55, 28, 2200, !reduced);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -302,9 +322,17 @@ export default function Hero({ profile }: { profile: ProfileData }) {
 
           {/* Left col: name + role + bio + CTAs */}
           <div className="min-w-0 flex-1 space-y-5">
-            <div>
-              <OutlinedText text="ARYAN" delay={0.3} reduced={reduced} />
-              <SolidText text="GANJU" delay={0.45} reduced={reduced} />
+            {/* Task 5b: scramble ARYAN / GANJU on hover */}
+            <div
+              onMouseEnter={() => {
+                if (!reduced) {
+                  scrambleAryan();
+                  scrambleGanju();
+                }
+              }}
+            >
+              <OutlinedText text={aryanText} delay={0.3} reduced={reduced} />
+              <SolidText text={ganjuText} delay={0.45} reduced={reduced} />
             </div>
 
             <motion.div
@@ -313,8 +341,17 @@ export default function Hero({ profile }: { profile: ProfileData }) {
               transition={reduced ? { duration: 0 } : { delay: 0.7, duration: 0.8 }}
               className="max-w-lg space-y-2"
             >
+              {/* Task 7b: typewriter role cycle */}
               <p className="font-body text-xl font-medium text-foreground-secondary md:text-2xl">
-                Software Engineer · NUS Computer Science
+                <span>{reduced ? "Software Engineer" : role}</span>
+                {!reduced && (
+                  <span
+                    className="ml-0.5 inline-block h-[1.1em] w-[2px] translate-y-[2px] bg-accent"
+                    style={{ animation: "blink 1s step-start infinite" }}
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="text-muted"> · NUS CS &apos;26</span>
               </p>
               <p className="font-body text-base leading-relaxed text-muted">
                 AI/ML + Database Systems. I build systems that survive contact with
@@ -428,12 +465,12 @@ export default function Hero({ profile }: { profile: ProfileData }) {
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                <span
+                {/* Task 4b: animated counter replaces static span */}
+                <AnimatedCounter
+                  value={stat.value}
+                  color={stat.color}
                   className="font-heading text-3xl font-bold leading-none"
-                  style={{ color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}60)` }}
-                >
-                  {stat.value}
-                </span>
+                />
                 <span className="font-mono text-xs text-muted">{stat.label}</span>
               </motion.div>
             ))}

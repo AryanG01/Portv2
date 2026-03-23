@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { FaGithub, FaExternalLinkAlt, FaTimes, FaLightbulb, FaTools, FaChartLine, FaCode } from "react-icons/fa";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
@@ -55,10 +55,6 @@ export default function ProjectDetailModal({
     if (e.key === "Escape") onClose();
   }, [onClose]);
 
-  const handleBackdropClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) onClose();
-  }, [onClose]);
-
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
@@ -81,26 +77,17 @@ export default function ProjectDetailModal({
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      style={{
+        background: "rgba(0, 0, 0, 0.5)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+      }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: reduced ? 0 : 0.2 }}
-      onClick={handleBackdropClick}
+      onClick={onClose}
     >
-      {/* Backdrop — click here to close */}
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          background: "rgba(0, 0, 0, 0.4)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: reduced ? 0 : 0.2 }}
-        onClick={onClose}
-      />
 
       {/* Modal — uses layoutId to morph from card */}
       <motion.div

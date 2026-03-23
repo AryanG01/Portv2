@@ -88,7 +88,12 @@ export default function ProjectDetailModal({
     >
       {/* Backdrop */}
       <motion.div
-        className="absolute inset-0 bg-background/80 backdrop-blur-md"
+        className="absolute inset-0"
+        style={{
+          background: "rgba(0, 0, 0, 0.4)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -99,15 +104,20 @@ export default function ProjectDetailModal({
       <motion.div
         ref={modalRef}
         layoutId={reduced ? undefined : `project-card-${index}`}
-        className="relative z-10 max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-2xl"
+        className="relative z-10 max-h-[90vh] w-full max-w-4xl rounded-2xl"
         style={{
-          background: "rgba(21, 29, 25, 0.95)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          background: "rgba(8, 12, 10, 0.92)",
+          backdropFilter: "blur(24px) saturate(1.4)",
+          WebkitBackdropFilter: "blur(24px) saturate(1.4)",
           border: "1px solid rgba(16, 185, 129, 0.15)",
           boxShadow: `0 0 60px ${colors.glow}, 0 25px 80px rgba(0, 0, 0, 0.5)`,
-        }}
+          overflowY: "auto",
+          WebkitOverflowScrolling: "touch",
+        } as React.CSSProperties}
         transition={springTransition}
+        onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
+        data-lenis-prevent
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"

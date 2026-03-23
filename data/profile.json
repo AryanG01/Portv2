@@ -179,6 +179,34 @@
       }
     },
     {
+      "name": "AgentCanvas",
+      "context": "Hackathon Project",
+      "summary": "Real-time graph visualisation dashboard that renders an AI coding agent's internal activity as a live, interactive node graph.",
+      "details": [
+        "WebSocket connection to codex-rs streams turns, shell commands, file patches, and MCP tool calls as graph nodes in real time",
+        "Custom conversation-flow layout algorithm: turns form a vertical spine, child events branch right in columns — failed commands surface individually, successful ones collapse into one summary node per turn",
+        "LLM-generated summary nodes provide a brief signal per turn; evidence side panel renders type-specific rich views for each event"
+      ],
+      "tags": ["TypeScript", "React", "Zustand", "WebSocket", "Vite"],
+      "github": "https://github.com/AryanG01/AgentCanvas",
+      "demo": null,
+      "caseStudy": {
+        "problem": "AI coding agents like Codex produce a wall of raw terminal output that's impossible to navigate mid-run or review after the fact. You can't quickly see which step failed, which files were touched, or what the agent was planning without scrolling through thousands of lines of JSONL.",
+        "approach": "Built a SPA that connects directly to the codex-rs WebSocket (port 3737) and normalises the raw wire protocol into a clean internal event model. A custom layout algorithm arranges turns as a vertical spine with child events branching right — up to 4 columns per turn, collapsible for focus. Successful shell commands are batched into one aggregated node per turn to reduce noise; failures always surface individually. LLM-generated summary nodes add a human-readable signal layer on top of raw events.",
+        "challenges": [
+          "Designing a layout algorithm that stays readable as graph size grows across a long agent session",
+          "Retroactively patching turn node labels (optimistically set to '(typing…)') when the real user message arrives over the stream",
+          "Handling two WebSocket transport modes (JSONL direct from codex-rs vs app-server) without violating Rules of Hooks"
+        ],
+        "metrics": [
+          "Built in a single-sprint hackathon (~Feb 28, 2026) by a team of 4",
+          "Replay scripts run saved sessions at 10x speed for fast UI iteration without a live agent",
+          "Mock mode (300ms stagger) enables full UI development with zero backend dependency"
+        ],
+        "codeHighlight": "// Command aggregation — batch successes, surface failures individually\nfunction buildGraph(events: AppEvent[]): { nodes: Node[]; edges: Edge[] } {\n  // Pass 1: collect successful commands per turn for aggregation\n  const successMap = groupSuccessfulCmds(events);\n  // Pass 2: build nodes — failures get individual nodes, successes collapse\n  for (const event of events) {\n    if (event.type === 'CMD' && event.exitCode === 0) {\n      upsertAggregatedNode(event, successMap[event.turnId]);\n    } else {\n      addEventNode(event); // failures always visible\n    }\n  }\n}"
+      }
+    },
+    {
       "name": "QuantFlow",
       "context": "Personal Project",
       "summary": "AI-driven crypto trading engine combining regime detection and probabilistic forecasting for systematic strategy execution.",

@@ -104,7 +104,7 @@
         "Procedural rooms with contextual encounters"
       ],
       "tags": ["TypeScript", "React", "Python"],
-      "github": "https://github.com/AryanG01/roguelike-engine",
+      "github": null,
       "demo": null,
       "caseStudy": {
         "problem": "AI-generated games often feel incoherent—characters change appearance mid-game, storylines contradict themselves, and the world lacks internal consistency. Players notice these breaks in immersion immediately.",
@@ -160,7 +160,7 @@
         "Machine learning model trained on phishing datasets"
       ],
       "tags": ["Python", "JavaScript", "HTML", "CSS"],
-      "github": "https://github.com/AryanG01/linkguard",
+      "github": null,
       "demo": null,
       "caseStudy": {
         "problem": "Phishing attacks are becoming increasingly sophisticated, with attackers using legitimate-looking domains and SSL certificates. Users need real-time protection that goes beyond blocklist matching.",
@@ -179,30 +179,59 @@
       }
     },
     {
-      "name": "Do-It Volunteering",
-      "context": "Community Project",
-      "summary": "Volunteer management platform connecting organizations with volunteers for community service.",
+      "name": "QuantFlow",
+      "context": "Personal Project",
+      "summary": "AI-driven crypto trading engine combining regime detection and probabilistic forecasting for systematic strategy execution.",
       "details": [
-        "Event discovery and registration system for volunteers",
-        "Organization dashboard for managing volunteer activities",
-        "Hours tracking and certificate generation"
+        "3-state Hidden Markov Model for bull/bear/sideways regime detection",
+        "LightGBM quantile regression (q10/q50/q90) with triple-barrier labeling",
+        "Walk-forward backtesting engine with realistic slippage and fee simulation"
       ],
-      "tags": ["JavaScript", "HTML", "CSS"],
-      "github": "https://github.com/AryanG01/Do-It-Volunteering",
+      "tags": ["Python", "LightGBM", "FastAPI", "Next.js", "TimescaleDB", "Redis"],
+      "github": "https://github.com/AryanG01/quantflow",
       "demo": null,
       "caseStudy": {
-        "problem": "Non-profits struggle to coordinate volunteers efficiently. Volunteers find it hard to discover opportunities, and organizations waste time on manual hour tracking and certificate generation.",
-        "approach": "Created a two-sided platform: volunteers can browse and sign up for opportunities with intelligent recommendations, while organizations get a dashboard for event management, attendance tracking, and automated certificate generation.",
+        "problem": "Most retail algo-trading systems either ignore market regimes entirely or rely on simplistic moving-average crossovers. The result: strategies that work well in trending markets blow up during high-volatility or mean-reverting periods.",
+        "approach": "Built a two-layer ML stack: a 3-state HMM labels each bar as bull/bear/sideways and gates which signals are allowed to fire; per-regime LightGBM models then produce probabilistic forecasts (q10/q50/q90) using triple-barrier labels. A walk-forward backtesting harness validates out-of-sample before any live capital is risked.",
         "challenges": [
-          "Building a matching algorithm that considers skills, location, and availability",
-          "Designing an intuitive UX for non-technical NGO staff",
-          "Ensuring data privacy for volunteer personal information"
+          "Avoiding lookahead bias in walk-forward splits with time-series aware cross-validation",
+          "Calibrating triple-barrier labels so the regime detector and signal model train on consistent targets",
+          "Serving low-latency predictions from TimescaleDB continuous aggregates without blocking the order loop"
         ],
         "metrics": [
-          "500+ volunteer hours tracked",
-          "30+ partner organizations onboarded",
-          "90% reduction in admin time for certificate generation"
-        ]
+          "Sharpe ratio 1.2 (post-fee 0.8) on out-of-sample test period",
+          "Max drawdown -11.3% vs -31% for buy-and-hold benchmark",
+          "HMM regime classifier 78% accuracy on held-out data"
+        ],
+        "codeHighlight": "# Regime-gated signal generation\ndef generate_signal(bar: Bar, models: RegimeModels) -> Signal | None:\n    regime = hmm.predict(bar.features)          # 0=bull 1=bear 2=sideways\n    if regime not in ALLOWED_REGIMES[strategy]:  # gate by regime\n        return None\n    q10, q50, q90 = models[regime].predict(bar)  # probabilistic forecast\n    if q10 > entry_threshold:\n        return Signal(direction='long', confidence=q50)\n    return None"
+      }
+    },
+    {
+      "name": "LifeOps",
+      "context": "Personal Project",
+      "summary": "Personal operations bot that consolidates Gmail, Outlook, and Canvas into a unified digest with AI triage and a Telegram interface.",
+      "details": [
+        "Delta polling via Gmail History API and Outlook delta-link — no full mailbox scans",
+        "Dual-LLM pipeline: Gemini Flash Lite for triage scoring, Claude for structured extraction",
+        "Priority Velocity Index (PVI) engine surfaces high-signal items before they become urgent"
+      ],
+      "tags": ["Python", "FastAPI", "SQLAlchemy", "Telegram", "Gemini", "Claude"],
+      "github": "https://github.com/AryanG01/LifeOps",
+      "demo": null,
+      "caseStudy": {
+        "problem": "Important messages across email, academic portals, and calendars get lost in noise. Manually triaging three inboxes daily is repetitive work that a well-designed system should handle.",
+        "approach": "Built an incremental sync layer using Gmail's History API and Outlook's delta-link to fetch only changed messages — avoiding full mailbox scans. A dual-LLM pipeline runs Gemini Flash Lite for cheap triage scoring, then routes high-signal items to Claude for structured extraction (deadlines, action items, entities). A Telegram bot delivers the final digest and supports natural-language queries against the stored context.",
+        "challenges": [
+          "Keeping delta tokens valid across restarts and handling full resync gracefully when they expire",
+          "Designing the PVI engine to surface urgency without generating alert fatigue",
+          "Coordinating two LLM providers with different rate limits inside a single async pipeline"
+        ],
+        "metrics": [
+          "95% reduction in API calls vs naive polling approach",
+          "~92% extraction accuracy on deadline and action-item detection",
+          "<500ms median Telegram response latency"
+        ],
+        "codeHighlight": "# Dual-LLM triage pipeline\nasync def process_message(msg: RawMessage) -> DigestItem | None:\n    score = await gemini_flash.triage(msg.snippet)   # cheap gate\n    if score < TRIAGE_THRESHOLD:\n        return None\n    item = await claude.extract(msg.full_body,         # deep parse\n        schema=DigestItem)\n    item.pvi = pvi_engine.score(item)                  # urgency ranking\n    return item"
       }
     },
     {

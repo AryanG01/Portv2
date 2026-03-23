@@ -78,9 +78,8 @@ export default function ProjectDetailModal({
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
       style={{
-        background: "rgba(0, 0, 0, 0.5)",
-        backdropFilter: "blur(10px)",
-        WebkitBackdropFilter: "blur(10px)",
+        /* Same dark tone as the modal card — no brightness rectangle */
+        background: "rgba(6, 10, 8, 0.92)",
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -95,9 +94,10 @@ export default function ProjectDetailModal({
         layoutId={reduced ? undefined : `project-card-${index}`}
         className="relative z-10 max-h-[90vh] w-full max-w-4xl rounded-2xl"
         style={{
-          background: "rgba(8, 12, 10, 0.96)",
-          border: "1px solid rgba(16, 185, 129, 0.15)",
-          boxShadow: `0 0 60px ${colors.glow}`,
+          background: "rgba(10, 16, 13, 0.98)",
+          border: "1px solid rgba(16, 185, 129, 0.2)",
+          /* Glow is what makes the card visible — not a color rectangle */
+          boxShadow: `0 0 0 1px rgba(16, 185, 129, 0.06), 0 0 60px ${colors.glow}, 0 30px 60px rgba(0, 0, 0, 0.5)`,
           overflowY: "auto",
           WebkitOverflowScrolling: "touch",
         } as React.CSSProperties}

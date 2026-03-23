@@ -56,6 +56,16 @@
         "Championed TDD culture: wrote 300+ unit tests, raised coverage to ~95%, prevented multiple production regressions",
         "Built AWS monitoring/optimization scripts + CI/CD improvements: reduced deployment time and compute costs"
       ]
+    },
+    {
+      "company": "Credence Singapore",
+      "role": "Financial Services Intern",
+      "dates": "Dec 2023",
+      "highlights": [
+        "Earned 5 financial analysis certifications during an intensive training program",
+        "Developed strategic financial solutions for diverse client portfolios",
+        "Secured 1st place in client simulation challenge across intern cohort"
+      ]
     }
   ],
   "hackathons_and_awards": [

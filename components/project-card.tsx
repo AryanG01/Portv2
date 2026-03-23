@@ -65,6 +65,11 @@ const CONTEXT_COLORS: Record<string, { accent: string; glow: string; gradient: s
     glow: "rgba(249,115,22,0.3)",
     gradient: "linear-gradient(135deg, rgba(249,115,22,0.15), rgba(245,158,11,0.08))",
   },
+  "OpenAI Codex Hackathon": {
+    accent: "#a78bfa",
+    glow: "rgba(167,139,250,0.3)",
+    gradient: "linear-gradient(135deg, rgba(167,139,250,0.15), rgba(16,185,129,0.08))",
+  },
 };
 
 const DEFAULT_C = {

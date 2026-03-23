@@ -9,8 +9,10 @@ export default function About() {
   const reduced = useReducedMotion();
 
   return (
+    <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
+    {/* ── Left: bio ── */}
     <motion.div
-      className="flex flex-col gap-7 max-w-3xl"
+      className="flex flex-col gap-7 min-w-0 flex-1"
       initial={{ opacity: 0, x: reduced ? 0 : -30 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
@@ -136,5 +138,82 @@ export default function About() {
         simple enough for the next person to change confidently.
       </p>
     </motion.div>
+
+    {/* ── Right: sidebar cards ── */}
+    <motion.div
+      className="flex w-full flex-col gap-4 lg:w-64 lg:shrink-0"
+      initial={{ opacity: 0, x: reduced ? 0 : 30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={reduced ? { duration: 0 } : { ...springConfig, delay: 0.15 }}
+    >
+      {/* At a glance */}
+      <div
+        className="flex flex-col gap-4 rounded-2xl p-5"
+        style={{
+          background: "rgba(17, 25, 22, 0.6)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(16, 185, 129, 0.09)",
+        }}
+      >
+        <p className="font-mono text-[10px] uppercase tracking-[0.15em]" style={{ color: "var(--muted)" }}>
+          At a glance
+        </p>
+
+        <ul className="flex flex-col gap-3">
+          {[
+            { label: "Based in", value: "Singapore" },
+            { label: "Degree", value: "NUS CS '26" },
+            { label: "Focus", value: "AI / ML + Databases" },
+            { label: "Status", value: "Open to roles" },
+          ].map(({ label, value }) => (
+            <li key={label} className="flex flex-col gap-0.5">
+              <span className="font-mono text-[10px] uppercase tracking-wider" style={{ color: "var(--muted)" }}>
+                {label}
+              </span>
+              <span className="font-body text-sm font-medium" style={{ color: "var(--foreground-secondary)" }}>
+                {value}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Off the clock */}
+      <div
+        className="flex flex-col gap-4 rounded-2xl p-5"
+        style={{
+          background: "rgba(17, 25, 22, 0.6)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(16, 185, 129, 0.09)",
+        }}
+      >
+        <p className="font-mono text-[10px] uppercase tracking-[0.15em]" style={{ color: "var(--muted)" }}>
+          Off the clock
+        </p>
+        <ul className="flex flex-col gap-2">
+          {[
+            "Judo & Volleyball",
+            "Ocean cleanup kayaking",
+            "Sustainability studies",
+            "Hackathons",
+          ].map((item) => (
+            <li key={item} className="flex items-center gap-2.5">
+              <span
+                className="h-1.5 w-1.5 shrink-0 rounded-full"
+                style={{ background: "var(--accent)", boxShadow: "0 0 6px rgba(16,185,129,0.5)" }}
+                aria-hidden="true"
+              />
+              <span className="font-body text-sm" style={{ color: "var(--muted)" }}>
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </motion.div>
+    </div>
   );
 }

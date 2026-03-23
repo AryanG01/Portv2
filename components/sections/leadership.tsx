@@ -29,19 +29,6 @@ const ENTRIES: LeadershipEntry[] = [
     glowColor: "rgba(16, 185, 129, 0.15)",
   },
   {
-    role: "Financial Services Intern",
-    org: "Credence Singapore",
-    date: "Dec 2023",
-    bullets: [
-      "Earned 5 financial analysis certifications during an intensive training program",
-      "Developed strategic financial solutions for diverse client portfolios",
-      "Secured 1st place in client simulation challenge across intern cohort",
-    ],
-    accentColor: "var(--gold)",
-    accentRgb: "245, 158, 11",
-    glowColor: "rgba(245, 158, 11, 0.15)",
-  },
-  {
     role: "Teaching Assistant — CS1101S",
     org: "National University of Singapore",
     date: "Aug – Dec 2023",

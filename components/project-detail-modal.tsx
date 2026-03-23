@@ -37,6 +37,7 @@ const CONTEXT_COLORS: Record<string, { gradient: string; glow: string; accent: s
   "HackRoll 2024": { gradient: "linear-gradient(135deg, #06b6d4, #10b981)", glow: "rgba(6, 182, 212, 0.3)", accent: "#06b6d4" },
   "Community Project": { gradient: "linear-gradient(135deg, #10b981, #22c55e)", glow: "rgba(16, 185, 129, 0.3)", accent: "#10b981" },
   "AIT x Redis x Cloudflare Mini-Hack": { gradient: "linear-gradient(135deg, #ef4444, #f59e0b)", glow: "rgba(239, 68, 68, 0.3)", accent: "#ef4444" },
+  "OpenAI Codex Hackathon": { gradient: "linear-gradient(135deg, #10b981, #a78bfa)", glow: "rgba(167, 139, 250, 0.3)", accent: "#a78bfa" },
 };
 
 const DEFAULT_COLORS = { gradient: "linear-gradient(135deg, #10b981, #06b6d4)", glow: "rgba(16, 185, 129, 0.3)", accent: "#10b981" };
@@ -86,7 +87,7 @@ export default function ProjectDetailModal({
       transition={{ duration: reduced ? 0 : 0.2 }}
       onClick={handleBackdropClick}
     >
-      {/* Backdrop */}
+      {/* Backdrop — click here to close */}
       <motion.div
         className="absolute inset-0"
         style={{
@@ -98,6 +99,7 @@ export default function ProjectDetailModal({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: reduced ? 0 : 0.2 }}
+        onClick={onClose}
       />
 
       {/* Modal — uses layoutId to morph from card */}
@@ -110,7 +112,7 @@ export default function ProjectDetailModal({
           backdropFilter: "blur(24px) saturate(1.4)",
           WebkitBackdropFilter: "blur(24px) saturate(1.4)",
           border: "1px solid rgba(16, 185, 129, 0.15)",
-          boxShadow: `0 0 60px ${colors.glow}, 0 25px 80px rgba(0, 0, 0, 0.5)`,
+          boxShadow: `0 0 60px ${colors.glow}`,
           overflowY: "auto",
           WebkitOverflowScrolling: "touch",
         } as React.CSSProperties}

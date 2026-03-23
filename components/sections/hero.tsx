@@ -319,7 +319,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
         </div>
 
         {/* ── Main content: name + photo side-by-side ── */}
-        <div className="mx-auto flex w-full max-w-[98vw] flex-1 flex-col items-center gap-6 px-6 py-6 md:px-10 lg:flex-row lg:items-center lg:gap-8 lg:px-14 xl:gap-12">
+        <div className="mx-auto flex w-full max-w-[98vw] flex-1 flex-col items-center gap-4 px-6 py-6 md:px-10 lg:flex-row lg:items-center lg:gap-6 lg:px-14 xl:gap-8">
 
           {/* Left col: name + role + bio + CTAs */}
           <div className="min-w-0 flex-1 space-y-5">
@@ -395,7 +395,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
             transition={reduced ? { duration: 0 } : { delay: 0.6, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           >
             <div
-              className="group relative h-[360px] w-[290px] overflow-hidden rounded-3xl sm:h-[420px] sm:w-[330px] lg:h-[500px] lg:w-[390px] xl:h-[560px] xl:w-[440px]"
+              className="group relative h-[400px] w-[320px] overflow-hidden rounded-3xl sm:h-[460px] sm:w-[360px] lg:h-[540px] lg:w-[420px] xl:h-[600px] xl:w-[470px]"
               style={{
                 border: "2px solid rgba(16,185,129,0.35)",
                 boxShadow:

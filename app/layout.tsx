@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Syne, Outfit, JetBrains_Mono } from "next/font/google";
 import { ToastProvider } from "@/components/toast";
+import ThemeSwitcher from "@/components/theme-switcher";
+import CommandPalette from "@/components/command-palette";
 import "./globals.css";
 
 const syne = Syne({
@@ -86,17 +88,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${syne.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased`}
       >
+        {/* Synchronous theme init — runs before paint to prevent flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('portfolio-theme');var v=['forest','midnight','obsidian','charcoal','parchment','arctic','softwhite'];if(!t||!v.includes(t)){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'softwhite':'forest';}document.documentElement.setAttribute('data-theme',t);}catch(e){}})();`,
+          }}
+        />
         <a
           href="#about"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-white"
         >
           Skip to content
         </a>
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          {children}
+          <ThemeSwitcher />
+          <CommandPalette />
+        </ToastProvider>
       </body>
     </html>
   );

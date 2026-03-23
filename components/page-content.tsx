@@ -9,6 +9,8 @@ import Projects from "@/components/sections/projects";
 import Hackathons from "@/components/sections/hackathons";
 import Skills from "@/components/sections/skills";
 import Contact from "@/components/sections/contact";
+import Leadership from "@/components/sections/leadership";
+import NowSection from "@/components/sections/now";
 import KeyboardNav from "@/components/keyboard-nav";
 import SectionWrapper from "@/components/section-wrapper";
 import GitHubActivity from "@/components/github-activity";
@@ -16,11 +18,12 @@ import BackgroundEffects from "@/components/background-effects";
 import SmoothScrollProvider from "@/components/smooth-scroll-provider";
 import ScrollProgress from "@/components/scroll-progress";
 import CustomCursor from "@/components/custom-cursor";
+import SkillsMarquee from "@/components/skills-marquee";
 import type { ProfileData } from "@/lib/profile";
 
 function Divider() {
   return (
-    <div className="mx-auto max-w-6xl px-6 md:px-8">
+    <div className="mx-auto max-w-7xl px-6 md:px-8">
       <div className="section-divider" />
     </div>
   );
@@ -45,46 +48,84 @@ export default function PageContent({ profile }: PageContentProps) {
       <KeyboardNav />
       <Nav />
       <main>
+        {/* Hero */}
         <Hero profile={profile} />
 
         <Divider />
 
+        {/* About */}
         <SectionWrapper id="about" title="About">
           <About />
         </SectionWrapper>
 
+        <Divider />
+
+        {/* Now — what I'm focused on */}
+        <SectionWrapper id="now" title="Now">
+          <NowSection />
+        </SectionWrapper>
+
+        <Divider />
+
+        {/* GitHub activity */}
         <GitHubActivity profile={profile} />
 
         <Divider />
 
+        {/* Experience */}
         <SectionWrapper id="experience" title="Experience">
           <Experience profile={profile} />
         </SectionWrapper>
 
         <Divider />
 
+        {/* Hackathons & Awards */}
         <SectionWrapper id="awards" title="Hackathons & Awards">
           <Hackathons profile={profile} />
         </SectionWrapper>
 
         <Divider />
 
-        <SectionWrapper id="projects" title="Projects & Skills">
-          <div className="grid gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <div>
-              <Projects profile={profile} activeSkill={activeSkill} />
-            </div>
-            <div>
-              <div className="lg:sticky lg:top-24">
-                <h3 className="mb-6 font-heading text-2xl font-bold gradient-text">Skills</h3>
-                <Skills profile={profile} activeSkill={activeSkill} onSkillToggle={handleSkillToggle} />
-              </div>
-            </div>
+        {/* Skills — marquee + interactive filter */}
+        <SectionWrapper id="skills" title="Skills">
+          {/* Decorative marquee */}
+          <div className="mb-10">
+            <p className="mb-4 font-mono text-xs uppercase tracking-widest text-muted">
+              Technology stack
+            </p>
+            <SkillsMarquee />
+          </div>
+
+          {/* Interactive skill filter (paired with projects) */}
+          <div className="border-t pt-8" style={{ borderColor: "rgba(16, 185, 129, 0.08)" }}>
+            <h3 className="mb-6 font-heading text-xl font-semibold text-muted">
+              Filter projects by skill
+            </h3>
+            <Skills
+              profile={profile}
+              activeSkill={activeSkill}
+              onSkillToggle={handleSkillToggle}
+            />
           </div>
         </SectionWrapper>
 
         <Divider />
 
+        {/* Projects — bento grid */}
+        <SectionWrapper id="projects" title="Projects">
+          <Projects profile={profile} activeSkill={activeSkill} />
+        </SectionWrapper>
+
+        <Divider />
+
+        {/* Leadership & Extracurricular */}
+        <SectionWrapper id="leadership" title="Leadership & Community">
+          <Leadership />
+        </SectionWrapper>
+
+        <Divider />
+
+        {/* Contact */}
         <SectionWrapper id="contact" title="Get in Touch">
           <Contact profile={profile} />
         </SectionWrapper>

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 const ROLES = [
   "Software Engineer",
-  "AI/ML Researcher",
+  "AI/ML Enthusiast",
   "Systems Builder",
   "Quant Developer",
 ];
@@ -12,9 +12,9 @@ const ROLES = [
  * Pass `enabled=false` to disable (e.g. when prefers-reduced-motion).
  */
 export function useTypewriter(
-  speed = 55,
-  eraseSpeed = 28,
-  pauseMs = 2200,
+  speed = 75,
+  eraseSpeed = 38,
+  pauseMs = 2800,
   enabled = true
 ): string {
   const [text, setText] = useState(ROLES[0]);

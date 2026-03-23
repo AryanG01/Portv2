@@ -8,7 +8,7 @@ import MagneticButton from "@/components/magnetic-button";
 import AnimatedCounter from "@/components/animated-counter";
 import { useToast } from "@/components/toast";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { useScramble } from "@/hooks/use-scramble";
+import { usePositionalScramble } from "@/hooks/use-scramble";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import type { ProfileData } from "@/lib/profile";
 
@@ -227,12 +227,13 @@ export default function Hero({ profile }: { profile: ProfileData }) {
   const { toast } = useToast();
   const reduced = useReducedMotion();
 
-  // Task 5b: text scramble on name hover
-  const { text: aryanText, scramble: scrambleAryan } = useScramble("ARYAN");
-  const { text: ganjuText, scramble: scrambleGanju } = useScramble("GANJU");
+  // Task 5b: cursor-position-driven scramble on name hover
+  const { text: aryanText, setPosition: setAryanPos, reset: resetAryan } = usePositionalScramble("ARYAN");
+  const { text: ganjuText, setPosition: setGanjuPos, reset: resetGanju } = usePositionalScramble("GANJU");
+  const nameWrapperRef = useRef<HTMLDivElement>(null);
 
   // Task 7b: typewriter role cycle
-  const role = useTypewriter(55, 28, 2200, !reduced);
+  const role = useTypewriter(75, 38, 2800, !reduced);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -318,17 +319,24 @@ export default function Hero({ profile }: { profile: ProfileData }) {
         </div>
 
         {/* ── Main content: name + photo side-by-side ── */}
-        <div className="mx-auto flex w-full max-w-[98vw] flex-1 flex-col items-center gap-8 px-6 py-6 md:px-10 lg:flex-row lg:items-center lg:gap-14 lg:px-14 xl:gap-20">
+        <div className="mx-auto flex w-full max-w-[98vw] flex-1 flex-col items-center gap-6 px-6 py-6 md:px-10 lg:flex-row lg:items-center lg:gap-8 lg:px-14 xl:gap-12">
 
           {/* Left col: name + role + bio + CTAs */}
           <div className="min-w-0 flex-1 space-y-5">
-            {/* Task 5b: scramble ARYAN / GANJU on hover */}
+            {/* Task 5b: cursor-position scramble on name hover */}
             <div
-              onMouseEnter={() => {
-                if (!reduced) {
-                  scrambleAryan();
-                  scrambleGanju();
-                }
+              ref={nameWrapperRef}
+              onMouseMove={(e) => {
+                if (reduced) return;
+                const rect = nameWrapperRef.current?.getBoundingClientRect();
+                if (!rect) return;
+                const ratio = (e.clientX - rect.left) / rect.width;
+                setAryanPos(ratio);
+                setGanjuPos(ratio);
+              }}
+              onMouseLeave={() => {
+                resetAryan();
+                resetGanju();
               }}
             >
               <OutlinedText text={aryanText} delay={0.3} reduced={reduced} />
@@ -387,7 +395,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
             transition={reduced ? { duration: 0 } : { delay: 0.6, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           >
             <div
-              className="group relative h-[340px] w-[270px] overflow-hidden rounded-3xl sm:h-[400px] sm:w-[310px] lg:h-[460px] lg:w-[360px] xl:h-[520px] xl:w-[410px]"
+              className="group relative h-[360px] w-[290px] overflow-hidden rounded-3xl sm:h-[420px] sm:w-[330px] lg:h-[500px] lg:w-[390px] xl:h-[560px] xl:w-[440px]"
               style={{
                 border: "2px solid rgba(16,185,129,0.35)",
                 boxShadow:
@@ -401,7 +409,7 @@ export default function Hero({ profile }: { profile: ProfileData }) {
                   fill
                   priority
                   className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                  sizes="(max-width: 640px) 270px, (max-width: 1024px) 310px, (max-width: 1280px) 360px, 410px"
+                  sizes="(max-width: 640px) 290px, (max-width: 1024px) 330px, (max-width: 1280px) 390px, 440px"
                   onError={() => setImageError(true)}
                 />
               ) : (

@@ -180,7 +180,7 @@
     },
     {
       "name": "AgentCanvas",
-      "context": "Hackathon Project",
+      "context": "OpenAI Codex Hackathon",
       "summary": "Real-time graph visualisation dashboard that renders an AI coding agent's internal activity as a live, interactive node graph.",
       "details": [
         "WebSocket connection to codex-rs streams turns, shell commands, file patches, and MCP tool calls as graph nodes in real time",
@@ -199,9 +199,9 @@
           "Handling two WebSocket transport modes (JSONL direct from codex-rs vs app-server) without violating Rules of Hooks"
         ],
         "metrics": [
-          "Built in a single-sprint hackathon (~Feb 28, 2026) by a team of 4",
           "Replay scripts run saved sessions at 10x speed for fast UI iteration without a live agent",
-          "Mock mode (300ms stagger) enables full UI development with zero backend dependency"
+          "Mock mode (300ms stagger) enables full UI development with zero backend dependency",
+          "Custom layout algorithm keeps graphs readable across 50+ node sessions"
         ],
         "codeHighlight": "// Command aggregation — batch successes, surface failures individually\nfunction buildGraph(events: AppEvent[]): { nodes: Node[]; edges: Edge[] } {\n  // Pass 1: collect successful commands per turn for aggregation\n  const successMap = groupSuccessfulCmds(events);\n  // Pass 2: build nodes — failures get individual nodes, successes collapse\n  for (const event of events) {\n    if (event.type === 'CMD' && event.exitCode === 0) {\n      upsertAggregatedNode(event, successMap[event.turnId]);\n    } else {\n      addEventNode(event); // failures always visible\n    }\n  }\n}"
       }
